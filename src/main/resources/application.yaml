@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: rewe-training
+
+server:
+  port: 8080
+
+springdoc:
+  # http://localhost:8080 opens the API documentation directly
+  swagger-ui:
+    path: /
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs

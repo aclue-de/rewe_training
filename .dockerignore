@@ -1,0 +1,12 @@
+# Keep the build context small. Only pom.xml and src/ are copied into the image.
+target/
+.git/
+.idea/
+
+# Maven comes from the build image, the wrapper is not needed in the container.
+.mvn/
+mvnw
+mvnw.cmd
+
+*.md
+docs/

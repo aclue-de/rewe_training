@@ -1,0 +1,40 @@
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Maven wrapper ###
+# Script-only mode: mvnw downloads Maven itself, the jar never belongs here.
+.mvn/wrapper/maven-wrapper.jar
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### VS Code ###
+.vscode/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### macOS / Windows ###
+.DS_Store
+Thumbs.db
+
+### Claude Code ###
+.claude/settings.local.json
