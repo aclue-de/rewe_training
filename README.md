@@ -74,17 +74,20 @@ curl http://localhost:8080/api/products
 Request and response formats, deposit rates and the error format:
 [docs/api.md](docs/api.md).
 
-## The exercise
+## The exercises
 
-`POST /api/returns` takes the items a customer hands back at the deposit return
-machine and should answer with a receipt: one line per product and the total
-deposit to be paid out.
+The tickets live in [issues/](issues/), so you can work from the repository
+alone:
 
-Everything you need is already there: `ProductRepository` resolves an article
-number, `DepositCalculator` knows the rates. `ReturnController` has both
-injected and throws `UnsupportedOperationException`.
+| File | What it asks for |
+|------|------------------|
+| [01-products-filterable.md](issues/01-products-filterable.md) | narrow the product list down |
+| [02-deposit-return.md](issues/02-deposit-return.md) | make `POST /api/returns` work |
 
-The acceptance criteria and the edge cases are in the issue tracker.
+The second one is the main exercise. Everything it needs is already there:
+`ProductRepository` resolves an article number, `DepositCalculator` knows the
+rates. `ReturnController` has both injected and throws
+`UnsupportedOperationException`.
 
 ## Build
 
