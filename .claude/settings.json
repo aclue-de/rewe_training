@@ -1,0 +1,23 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".\\mvnw.cmd -q spotless:apply",
+            "shell": "powershell",
+            "timeout": 180,
+            "statusMessage": "Formatting with spotless:apply..."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Bash(git push:*)"
+    ]
+  }
+}

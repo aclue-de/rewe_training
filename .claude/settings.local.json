@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -c [console]::beep(800,300)",
+            "shell": "powershell",
+            "statusMessage": "Done."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(./mvnw *)"
+    ]
+  }
+}
