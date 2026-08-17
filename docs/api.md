@@ -8,11 +8,19 @@ The OpenAPI document itself is at `/v3/api-docs`.
 
 ## GET /api/products
 
-The whole assortment.
+The whole assortment, optionally narrowed by packaging type.
 
 ```bash
 curl http://localhost:8080/api/products
+curl "http://localhost:8080/api/products?packaging=CRATE"
+curl "http://localhost:8080/api/products?packaging=CRATE&packaging=SINGLE_USE"
 ```
+
+`packaging` is optional and repeatable, so one call can name several types at
+once. Values must match a `PackagingType` exactly — `crate` is rejected,
+`CRATE` is not. Leaving it out, or giving it a blank value, returns the whole
+assortment. An unrecognized value answers `400` with a problem detail naming
+the allowed values.
 
 ```json
 [

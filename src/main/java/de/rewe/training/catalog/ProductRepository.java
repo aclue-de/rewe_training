@@ -2,6 +2,7 @@ package de.rewe.training.catalog;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -25,6 +26,17 @@ public class ProductRepository {
 
     public List<Product> findAll() {
         return SEED;
+    }
+
+    /**
+     * The assortment narrowed to the given packaging types.
+     *
+     * @param packaging types to keep; a product is included if its packaging is any of these
+     */
+    public List<Product> findAll(Set<PackagingType> packaging) {
+        return SEED.stream()
+                .filter(product -> packaging.contains(product.packaging()))
+                .toList();
     }
 
     public Optional<Product> findById(String id) {
