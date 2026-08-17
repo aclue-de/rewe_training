@@ -59,13 +59,19 @@ but it needs a test so the behaviour is pinned down rather than accidental.
   springdoc already reflects that path and shape today, stub or not.
   Implementing the method body changes neither. No update needed.
 
+## How this gets committed
+
+Nothing here is committed by the agent. Each step's changes get reviewed first,
+and the commits are created afterwards in this order: the characterization tests,
+then the implementation with its tests, then the docs update.
+
 ## Steps
 
 1. Add characterization tests to `DepositCalculatorTest` covering every
    `PackagingType` (`REUSABLE_GLASS`, `REUSABLE_PLASTIC`, `NO_DEPOSIT`, plus
    `rateInCents` directly for all five) and unusual quantities (`0`,
-   negative) — no production code touched. Run them against the unmodified
-   class and confirm they're green. Commit on its own.
+   negative) — no production code touched. Run `./mvnw verify` and confirm it
+   is green.
 2. Add a `@Positive` constraint to `ReturnRequest.Item.quantity`, matching
    the existing `@NotEmpty`/`@NotBlank` style on the same record (see
    reasoning above for why this needs no characterization step first).
@@ -96,6 +102,3 @@ but it needs a test so the behaviour is pinned down rather than accidental.
    400 cases, and document the new "quantity must be positive" constraint on
    request items.
 6. Run `./mvnw verify` and confirm it's green.
-7. Commit the implementation (steps 2–4) separately from the docs update
-   (step 5), keeping the characterization-test commit from step 1 first and
-   untouched.
