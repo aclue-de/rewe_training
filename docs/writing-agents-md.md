@@ -134,6 +134,12 @@ length.
 | Configured values, generated docs | the config, the generator |
 | Your personal workflow | your own settings, not the repo |
 
+## Prompts
+
+Six prompts that apply the points above, each with what it is good for, are in
+[agents-md-prompts.md](agents-md-prompts.md). Two of them are enough after
+`/init`.
+
 ## Checklist
 
 - [ ] Every line still true in six months
