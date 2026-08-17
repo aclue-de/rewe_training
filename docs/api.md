@@ -35,7 +35,12 @@ curl http://localhost:8080/api/products/P-1003
 
 ## POST /api/returns
 
-**Not implemented — answers `501`. This is the exercise.**
+One line per item in the request, in the order they were sent, plus the
+total to pay out. A product with `NO_DEPOSIT` packaging appears on the
+receipt with `0` cents.
+
+`quantity` must be `1` or more — `0`, a negative number, or an empty `items`
+list all answer `400`. An unknown `productId` answers `404`.
 
 The request holds what the customer handed back:
 
@@ -48,8 +53,7 @@ The request holds what the customer handed back:
 }
 ```
 
-Once implemented it should answer with a receipt — one line per product, plus
-the total to be paid out:
+It answers with a receipt:
 
 ```json
 {
@@ -72,9 +76,6 @@ the total to be paid out:
   "totalDepositCents": 300
 }
 ```
-
-The acceptance criteria and the open edge cases are in the issue tracker, not
-here.
 
 ## Deposit rates
 
