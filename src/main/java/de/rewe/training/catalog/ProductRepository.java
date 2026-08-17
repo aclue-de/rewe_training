@@ -27,6 +27,10 @@ public class ProductRepository {
         return SEED;
     }
 
+    public List<Product> findByPackaging(PackagingType packaging) {
+        return SEED.stream().filter(product -> product.packaging() == packaging).toList();
+    }
+
     public Optional<Product> findById(String id) {
         return SEED.stream().filter(product -> product.id().equals(id)).findFirst();
     }

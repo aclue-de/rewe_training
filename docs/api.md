@@ -8,10 +8,13 @@ The OpenAPI document itself is at `/v3/api-docs`.
 
 ## GET /api/products
 
-The whole assortment.
+The whole assortment. Filter it to one packaging type with the `packaging`
+query parameter — one of `SINGLE_USE`, `REUSABLE_GLASS`, `REUSABLE_PLASTIC`,
+`CRATE`, `NO_DEPOSIT`. An unknown value answers `400`.
 
 ```bash
 curl http://localhost:8080/api/products
+curl http://localhost:8080/api/products?packaging=CRATE
 ```
 
 ```json

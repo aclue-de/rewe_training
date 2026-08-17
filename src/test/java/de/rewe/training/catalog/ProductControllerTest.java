@@ -28,6 +28,31 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("GET /api/products?packaging=CRATE returns only crates")
+    void findAll_filteredByPackaging_returnsMatchingProducts() throws Exception {
+        mockMvc.perform(get("/api/products").param("packaging", "CRATE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value("P-1004"));
+    }
+
+    @Test
+    @DisplayName("GET /api/products?packaging=SINGLE_USE returns only one-way products")
+    void findAll_filteredBySingleUse_returnsMatchingProducts() throws Exception {
+        mockMvc.perform(get("/api/products").param("packaging", "SINGLE_USE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].id").value("P-1001"))
+                .andExpect(jsonPath("$[1].id").value("P-1006"));
+    }
+
+    @Test
+    @DisplayName("GET /api/products?packaging=<unknown> returns 400")
+    void findAll_unknownPackaging_returns400() throws Exception {
+        mockMvc.perform(get("/api/products").param("packaging", "NOT_A_TYPE")).andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("GET /api/products/{id} returns the matching product")
     void findById_knownId_returnsProduct() throws Exception {
         mockMvc.perform(get("/api/products/P-1003"))
