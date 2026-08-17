@@ -3,6 +3,7 @@ package de.rewe.training.returns;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 /** What a customer hands back at the return machine. */
@@ -14,5 +15,5 @@ public record ReturnRequest(@NotEmpty List<@Valid Item> items) {
      * @param productId article number of the returned product
      * @param quantity number of items returned
      */
-    public record Item(@NotBlank String productId, int quantity) {}
+    public record Item(@NotBlank String productId, @Positive int quantity) {}
 }

@@ -1,18 +1,17 @@
 package de.rewe.training.returns;
 
+import de.rewe.training.catalog.Product;
 import de.rewe.training.catalog.ProductRepository;
 import de.rewe.training.deposit.DepositCalculator;
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-/**
- * Deposit return.
- *
- * <p>The endpoint exists, the logic does not. That is the exercise — see README.md.
- */
 @RestController
 @RequestMapping("/api/returns")
 public class ReturnController {
@@ -27,6 +26,19 @@ public class ReturnController {
 
     @PostMapping
     public ReturnReceipt calculateReturn(@Valid @RequestBody ReturnRequest request) {
-        throw new UnsupportedOperationException("Deposit return is not implemented yet");
+        List<ReturnReceipt.Line> lines =
+                request.items().stream().map(this::lineFor).toList();
+        int totalDepositCents =
+                lines.stream().mapToInt(ReturnReceipt.Line::depositCents).sum();
+        return new ReturnReceipt(lines, totalDepositCents);
+    }
+
+    private ReturnReceipt.Line lineFor(ReturnRequest.Item item) {
+        Product product = products.findById(item.productId())
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "No product with id " + item.productId()));
+        int depositPerItemCents = calculator.rateInCents(product);
+        int depositCents = calculator.depositInCents(product, item.quantity());
+        return new ReturnReceipt.Line(product.id(), product.name(), item.quantity(), depositPerItemCents, depositCents);
     }
 }
