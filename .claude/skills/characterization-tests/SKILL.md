@@ -36,9 +36,10 @@ code before anything moves.
    `AGENTS.md`: "a test that captures wrong behaviour is still a correct
    characterization test." Don't editorialize about what it *should* do in
    the assertion.
-4. **Run the new tests against the unmodified class and confirm they're
-   green.** A characterization test that fails on today's code is a bug in
-   the test, not a finding — fix the assertion, not the class.
+4. **Run `./mvnw verify` and confirm it is green** — not just the new tests. A
+   characterization test that fails on today's code is a bug in the test, not a
+   finding: fix the assertion, not the class. `verify` also runs the format
+   check, so the commit lands formatted.
 5. **Commit the characterization tests on their own**, before touching the
    class. Message states what it does, e.g. `Add characterization tests for
    DepositCalculator`.
