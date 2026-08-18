@@ -5,6 +5,9 @@ The exercise project for the AI Enablement Base AI Training.
 It is deliberately small: a product catalogue that works, and one endpoint that
 does not. Building that endpoint is the exercise.
 
+**Doing the training?** Start with [docs/playbook.md](docs/playbook.md) — every
+block with its steps and prompts.
+
 ## What you need
 
 | Tool              | Version                            | Needed for                          |
