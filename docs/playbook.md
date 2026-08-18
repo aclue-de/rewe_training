@@ -221,6 +221,74 @@ than adding more instructions.
 
 ---
 
+## D1 · Subagent — 8 min, shown live
+
+Nothing to build. What you see, so you can do it in your own repo:
+
+A subagent is a file — `.claude/agents/<name>.md`. Its `tools:` line is the access
+list: anything not named there is denied. Have one created rather than writing the
+YAML yourself:
+
+```
+Create a project subagent money-audit that finds every place this service handles
+money. Read-only: it may read, grep and glob, nothing else. It reports file and
+line for every place an amount is stored, computed or returned.
+```
+
+Check the `tools:` line afterwards — "read-only" in the prompt does not guarantee a
+narrow list. Then restart Claude Code, otherwise the new directory is not picked
+up, and call it:
+
+```
+@money-audit find every place where this service handles money
+```
+
+The `@` forces the delegation instead of leaving it to the model.
+
+Delegate when you want the result, not the path: searching and auditing yes,
+changing and deciding no.
+
+## D2 · Team configuration — 8 min, shown live
+
+Nothing to build. Two files, same format, different purpose:
+
+| File | Holds | In git |
+|------|-------|--------|
+| `.claude/settings.json` | what applies to everyone on the repo | yes |
+| `.claude/settings.local.json` | what applies only to you | no, gitignored |
+
+A hook that formats after every edit, and a rule that stops the agent from
+pushing:
+
+```json
+{
+  "permissions": {
+    "deny": ["Bash(git push)", "Bash(git push:*)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": "./mvnw -q spotless:apply" }]
+      }
+    ]
+  }
+}
+```
+
+Then try it — have the agent attempt a push and watch the rule block it:
+
+```bash
+git push
+```
+
+Two things that silently do nothing: `allow` and `deny` must sit under
+`permissions`, and a rule only covers the tool it names — `Bash(git push)` does not
+stop a push issued through another shell tool. On Windows the hook command is
+`mvnw.cmd`, not `./mvnw`.
+
+`deny` beats `allow`, even a more specific one. A prohibition takes no exceptions.
+
 ## H6 · The big block — 45 min
 
 **Goal:** one complete run, from ticket to reviewed result. Ticket:
