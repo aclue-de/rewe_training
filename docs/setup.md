@@ -3,7 +3,10 @@
 Do this before the training starts, not during it. Twenty minutes, and the check
 at the end tells you whether it worked.
 
-## JDK 21
+Three things are required: **a JDK 21, the Claude Code CLI and Git.** IntelliJ and
+Docker are optional. Maven is not needed — `mvnw` downloads it.
+
+## JDK 21 — required
 
 Any distribution will do — Temurin, Corretto, Zulu, the one your team already
 uses. Version 21 exactly: the project is built against it, and 17 will not
@@ -17,16 +20,16 @@ Expected: a line starting with `openjdk version "21`.
 
 If several JDKs are installed, `JAVA_HOME` decides which one Maven picks.
 
-## IntelliJ IDEA
+## IntelliJ IDEA — optional
 
-Community Edition is enough. Use 2023.3 or newer — older versions do not know
-Java 21.
+Only if you would rather work in an IDE than in the terminal. Community Edition is
+enough. Use 2023.3 or newer — older versions do not know Java 21.
 
 After **File | Open** on this folder, IDEA reads `pom.xml` and downloads the
 dependencies by itself. Set the SDK under **File | Project Structure | Project**
 to 21 if IDEA does not find it.
 
-## Claude Code CLI
+## Claude Code CLI — required
 
 The native installer is the recommended way — it keeps itself up to date in the
 background. No Node.js needed.
@@ -68,9 +71,9 @@ well — with it Claude Code uses Git Bash for shell commands, without it PowerS
 
 Documentation: <https://code.claude.com/docs/en/setup>
 
-## Git
+## Git — required
 
-Needed to clone this repository. Any version.
+For cloning the repository and for the branch you work on. Any version.
 
 ```bash
 git --version
@@ -78,8 +81,9 @@ git --version
 
 ## Docker — optional
 
-Only needed if you want to run the service without a local JDK. Docker Desktop
-brings both parts.
+Only for running the service in a container. **It does not replace the JDK:** the
+image build skips the tests, and every exercise ends with `./mvnw verify`. Docker
+Desktop brings both parts.
 
 ```bash
 docker --version
