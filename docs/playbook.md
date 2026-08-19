@@ -21,16 +21,17 @@ Teams of two or three. One branch per team, off `main`, and stay on it for the
 whole day.
 
 ```bash
-git switch -c training main && ./mvnw -B -ntp clean verify
+git switch -c training main
+./mvnw -B -ntp clean verify        # no local JDK: docker compose run --rm build
 ```
 
 Expected: `Tests run: 13, Failures: 0` and `BUILD SUCCESS`. Don't use `-q`, it
 hides both lines. The `WARN` about `must not be empty` during the tests is not an
 error — it is the test for the 400 response.
 
-No local JDK? Then `docker compose run --rm build` does the same thing, and every
-`./mvnw verify` below becomes that command — put it in your `AGENTS.md` in H1 so
-Claude Code uses it too.
+Working from the container build? Then every `./mvnw` line below is
+`docker compose run --rm build` for you, as the comments note. Put that command in
+your `AGENTS.md` in H1, otherwise Claude Code keeps reaching for `./mvnw`.
 
 Commit after every block. At the end, the whole day is one branch of history.
 
@@ -127,10 +128,10 @@ it is written down.
 Implement what issues/01-products-filterable.md asks for. Just get it done.
 ```
 
-Fill the left column:
+Two of the four rows come from here, the other two from the question above:
 
 ```bash
-./mvnw -B -ntp verify
+./mvnw -B -ntp verify              # no local JDK: docker compose run --rm build
 git --no-pager diff --stat
 ```
 
@@ -168,7 +169,7 @@ Constraints:
 - without the parameter, the response is exactly as it is today
 - <one line per open question the counter-question raised, with your decision>
 - no refactoring on the side, no new package
-- ./mvnw verify is green
+- the build is green
 
 Format: a diff plus tests — including one that checks the error path returns a
 ProblemDetail body, not just the right status.
@@ -177,10 +178,11 @@ ProblemDetail body, not just the right status.
 Conventions do not belong in the brief, they are in `AGENTS.md`. Leave one of the
 four blocks out and the agent guesses at exactly that point.
 
-Fill the right column, then keep it:
+Fill the right column the same way — these two rows plus the question — then keep
+it:
 
 ```bash
-./mvnw -B -ntp verify
+./mvnw -B -ntp verify              # no local JDK: docker compose run --rm build
 git add -A && git commit -m "Filter the product list by packaging type"
 ```
 
@@ -379,7 +381,7 @@ Against the acceptance criteria, not against a first impression.
 **Done when:**
 
 ```bash
-./mvnw -B -ntp verify
+./mvnw -B -ntp verify              # no local JDK: docker compose run --rm build
 ```
 
 is green and:
