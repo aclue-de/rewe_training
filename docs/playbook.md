@@ -22,7 +22,7 @@ whole day.
 
 ```bash
 git switch -c training main
-./mvnw -B -ntp clean verify        # no local JDK: docker compose run --rm build
+./mvnw -B -ntp clean verify        # no local JDK: docker compose run --rm verify
 ```
 
 Expected: `Tests run: 13, Failures: 0` and `BUILD SUCCESS`. Don't use `-q`, it
@@ -30,7 +30,7 @@ hides both lines. The `WARN` about `must not be empty` during the tests is not a
 error — it is the test for the 400 response.
 
 Working from the container build? Then every `./mvnw` line below is
-`docker compose run --rm build` for you, as the comments note. Put that command in
+`docker compose run --rm verify` for you, as the comments note. Put that command in
 your `AGENTS.md` in H1, otherwise Claude Code keeps reaching for `./mvnw`.
 
 Commit after every block. At the end, the whole day is one branch of history.
@@ -131,7 +131,7 @@ Implement what issues/01-products-filterable.md asks for. Just get it done.
 Two of the four rows come from here, the other two from the question above:
 
 ```bash
-./mvnw -B -ntp verify              # no local JDK: docker compose run --rm build
+./mvnw -B -ntp verify              # no local JDK: docker compose run --rm verify
 git --no-pager diff --stat
 ```
 
@@ -182,7 +182,7 @@ Fill the right column the same way — these two rows plus the question — then
 it:
 
 ```bash
-./mvnw -B -ntp verify              # no local JDK: docker compose run --rm build
+./mvnw -B -ntp verify              # no local JDK: docker compose run --rm verify
 git add -A && git commit -m "Filter the product list by packaging type"
 ```
 
@@ -381,7 +381,7 @@ Against the acceptance criteria, not against a first impression.
 **Done when:**
 
 ```bash
-./mvnw -B -ntp verify              # no local JDK: docker compose run --rm build
+./mvnw -B -ntp verify              # no local JDK: docker compose run --rm verify
 ```
 
 is green and:

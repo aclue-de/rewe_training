@@ -92,19 +92,33 @@ docker --version
 docker compose version
 ```
 
-`docker compose up --build` starts the service, but its image build skips the
-tests — so it is no substitute for the build.
+The commands you need:
+
+```bash
+docker compose up --build          # start the service, rebuilding the image
+docker compose up                  # start it again later, no rebuild
+docker compose down                # stop it and remove the containers
+docker compose run --rm verify     # run the full build in a container
+docker compose down -v             # the above, plus wipe the dependency cache
+```
+
+`up` serves the API on <http://localhost:8080> exactly as a local start does. Stop
+it with `Ctrl+C` or `docker compose down` from another terminal.
+
+The image build behind `up --build` skips the tests, so it is no substitute for
+the build itself.
 
 ### If you cannot install a JDK
 
 There is a second service that runs the build in a container:
 
 ```bash
-docker compose run --rm build
+docker compose run --rm verify
 ```
 
-Same result as `./mvnw verify`, no local JDK needed. Dependencies are cached in a
-volume, so only the first run is slow.
+Same result as `./mvnw verify`, no local JDK needed. `--rm` deletes the container
+afterwards; the dependencies survive in a named volume, so only the first run is
+slow. `docker compose down -v` clears that cache if you ever need to.
 
 Two things to know before you rely on it. It is noticeably slower than a local
 build, especially on Windows, where a Maven build reads thousands of files across
