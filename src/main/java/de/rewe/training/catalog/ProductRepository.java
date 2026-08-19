@@ -1,5 +1,6 @@
 package de.rewe.training.catalog;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,21 @@ public class ProductRepository {
 
     public List<Product> findAll() {
         return SEED;
+    }
+
+    /**
+     * The assortment narrowed to the given packaging types, in seed order.
+     *
+     * <p>No selection means no narrowing: the deposit machine asks for the whole assortment the same
+     * way it asks for crates, so the caller never needs a second route.
+     */
+    public List<Product> findByPackaging(Collection<PackagingType> packaging) {
+        if (packaging == null || packaging.isEmpty()) {
+            return findAll();
+        }
+        return SEED.stream()
+                .filter(product -> packaging.contains(product.packaging()))
+                .toList();
     }
 
     public Optional<Product> findById(String id) {
