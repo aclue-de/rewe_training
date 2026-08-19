@@ -123,18 +123,24 @@ it is written down.
 Implement what issues/01-products-filterable.md asks for. Just get it done.
 ```
 
-Look at it and fill the left column:
+Fill the left column:
 
 ```bash
 ./mvnw -B -ntp verify
 git --no-pager diff --stat
-git --no-pager diff -- src
 ```
 
-A red `verify` here is a finding, not a reason to stop. Then discard:
+A red `verify` here is a finding, not a reason to stop.
+
+Once the grid is filled, wipe both the context and the tree — otherwise run 2
+inherits what run 1 wrote and just repeats it:
+
+```
+/clear
+```
 
 ```bash
-git checkout . && git clean -fd
+git reset --hard && git clean -fd
 ```
 
 ### Run 2 — 10 min

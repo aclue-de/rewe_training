@@ -28,20 +28,45 @@ to 21 if IDEA does not find it.
 
 ## Claude Code CLI
 
-Needs Node.js 18 or newer.
+The native installer is the recommended way — it keeps itself up to date in the
+background. No Node.js needed.
 
-```bash
-npm install -g @anthropic-ai/claude-code
-claude --version
+**Windows PowerShell:**
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
 ```
 
-Then start it once inside the project folder and sign in:
+**macOS, Linux, WSL:**
 
 ```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**With Homebrew instead:**
+
+```bash
+brew install --cask claude-code
+```
+
+Homebrew does not auto-update — `brew upgrade claude-code` when you want a newer
+version.
+
+Then check it and sign in. Starting `claude` opens a browser for the login:
+
+```bash
+claude --version
 claude
 ```
 
-Documentation: <https://docs.claude.com/en/docs/claude-code>
+Needs a Pro, Max, Team or Enterprise account; the free plan does not include
+Claude Code. If something looks wrong, `claude doctor` prints diagnostics without
+starting a session.
+
+On native Windows, install [Git for Windows](https://git-scm.com/downloads/win) as
+well — with it Claude Code uses Git Bash for shell commands, without it PowerShell.
+
+Documentation: <https://code.claude.com/docs/en/setup>
 
 ## Git
 
