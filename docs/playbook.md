@@ -179,6 +179,14 @@ git add -A && git commit -m "Filter the product list by packaging type"
 The grid is filled. Put the list of open questions from the counter-question next
 to it and go through them one by one.
 
+A brief does not remove decisions, it moves them down. Run 1 guesses at the
+contract: parameter name, one route or two, one value or many. Your brief settles
+those — and that lets the work get concrete enough for a new layer to appear:
+where the filter lives, whether empty means "all", which existing error mechanism
+answers a bad value. Ask run 2 the counter-question too and it still names a
+handful, sometimes more than run 1. So always ask again after the run, even
+when your ticket was precise.
+
 **Done when** the grid is complete and you can say which decisions run 1 made on
 your behalf.
 
