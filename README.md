@@ -10,15 +10,15 @@ block with its steps and prompts.
 
 ## What you need
 
-| Tool              | Version                            | Needed for                          |
-|-------------------|------------------------------------|-------------------------------------|
-| JDK               | 21                                 | building and running the service    |
-| IntelliJ IDEA     | 2023.3 or newer, Community is fine | working on the code                 |
-| Claude Code CLI   | current                            | every exercise in the training      |
-| Git               | any                                | cloning this repository             |
-| Docker            | 24 or newer — optional             | running the service without a JDK   |
+| Tool            | Version                       | Needed for                                    |
+|-----------------|-------------------------------|-----------------------------------------------|
+| JDK             | 21                            | everything — building, tests, running          |
+| Claude Code CLI | current                       | every exercise in the training                 |
+| Git             | any                           | cloning and branching                          |
+| IntelliJ IDEA   | 2023.3 or newer — optional    | working in an IDE instead of the terminal      |
+| Docker          | 24 or newer — optional        | running the service; does not replace the JDK  |
 
-Maven is not on the list: `mvnw` downloads it.
+Maven is not on the list: `mvnw` downloads it on first use.
 
 Install steps and a check per tool: [docs/setup.md](docs/setup.md).
 
@@ -44,7 +44,8 @@ Tests: right-click `src/test/java`, then **Run 'All Tests'**.
 
 ### Docker
 
-No JDK needed, the image brings its own:
+The image brings its own JDK, so this runs the service without one — but the image
+build skips the tests, so it is no substitute for `./mvnw verify`:
 
 ```bash
 docker compose up --build

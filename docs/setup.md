@@ -3,7 +3,10 @@
 Do this before the training starts, not during it. Twenty minutes, and the check
 at the end tells you whether it worked.
 
-## JDK 21
+Three things are required: **a JDK 21, the Claude Code CLI and Git.** IntelliJ and
+Docker are optional. Maven is not needed — `mvnw` downloads it.
+
+## JDK 21 — required
 
 Any distribution will do — Temurin, Corretto, Zulu, the one your team already
 uses. Version 21 exactly: the project is built against it, and 17 will not
@@ -17,35 +20,60 @@ Expected: a line starting with `openjdk version "21`.
 
 If several JDKs are installed, `JAVA_HOME` decides which one Maven picks.
 
-## IntelliJ IDEA
+## IntelliJ IDEA — optional
 
-Community Edition is enough. Use 2023.3 or newer — older versions do not know
-Java 21.
+Only if you would rather work in an IDE than in the terminal. Community Edition is
+enough. Use 2023.3 or newer — older versions do not know Java 21.
 
 After **File | Open** on this folder, IDEA reads `pom.xml` and downloads the
 dependencies by itself. Set the SDK under **File | Project Structure | Project**
 to 21 if IDEA does not find it.
 
-## Claude Code CLI
+## Claude Code CLI — required
 
-Needs Node.js 18 or newer.
+The native installer is the recommended way — it keeps itself up to date in the
+background. No Node.js needed.
 
-```bash
-npm install -g @anthropic-ai/claude-code
-claude --version
+**Windows PowerShell:**
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
 ```
 
-Then start it once inside the project folder and sign in:
+**macOS, Linux, WSL:**
 
 ```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**With Homebrew instead:**
+
+```bash
+brew install --cask claude-code
+```
+
+Homebrew does not auto-update — `brew upgrade claude-code` when you want a newer
+version.
+
+Then check it and sign in. Starting `claude` opens a browser for the login:
+
+```bash
+claude --version
 claude
 ```
 
-Documentation: <https://docs.claude.com/en/docs/claude-code>
+Needs a Pro, Max, Team or Enterprise account; the free plan does not include
+Claude Code. If something looks wrong, `claude doctor` prints diagnostics without
+starting a session.
 
-## Git
+On native Windows, install [Git for Windows](https://git-scm.com/downloads/win) as
+well — with it Claude Code uses Git Bash for shell commands, without it PowerShell.
 
-Needed to clone this repository. Any version.
+Documentation: <https://code.claude.com/docs/en/setup>
+
+## Git — required
+
+For cloning the repository and for the branch you work on. Any version.
 
 ```bash
 git --version
@@ -53,8 +81,9 @@ git --version
 
 ## Docker — optional
 
-Only needed if you want to run the service without a local JDK. Docker Desktop
-brings both parts.
+Only for running the service in a container. **It does not replace the JDK:** the
+image build skips the tests, and every exercise ends with `./mvnw verify`. Docker
+Desktop brings both parts.
 
 ```bash
 docker --version
