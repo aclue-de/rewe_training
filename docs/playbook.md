@@ -28,6 +28,10 @@ Expected: `Tests run: 13, Failures: 0` and `BUILD SUCCESS`. Don't use `-q`, it
 hides both lines. The `WARN` about `must not be empty` during the tests is not an
 error — it is the test for the 400 response.
 
+No local JDK? Then `docker compose run --rm build` does the same thing, and every
+`./mvnw verify` below becomes that command — put it in your `AGENTS.md` in H1 so
+Claude Code uses it too.
+
 Commit after every block. At the end, the whole day is one branch of history.
 
 ---

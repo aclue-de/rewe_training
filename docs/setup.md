@@ -6,6 +6,10 @@ at the end tells you whether it worked.
 Three things are required: **a JDK 21, the Claude Code CLI and Git.** IntelliJ and
 Docker are optional. Maven is not needed — `mvnw` downloads it.
 
+Without a JDK there is a fallback that runs the build in a container — see
+[Docker](#docker--optional) — but it is slower and needs one extra line in your
+`AGENTS.md`.
+
 ## JDK 21 — required
 
 Any distribution will do — Temurin, Corretto, Zulu, the one your team already
@@ -81,14 +85,34 @@ git --version
 
 ## Docker — optional
 
-Only for running the service in a container. **It does not replace the JDK:** the
-image build skips the tests, and every exercise ends with `./mvnw verify`. Docker
-Desktop brings both parts.
+For running the service in a container. Docker Desktop brings both parts.
 
 ```bash
 docker --version
 docker compose version
 ```
+
+`docker compose up --build` starts the service, but its image build skips the
+tests — so it is no substitute for the build.
+
+### If you cannot install a JDK
+
+There is a second service that runs the build in a container:
+
+```bash
+docker compose run --rm build
+```
+
+Same result as `./mvnw verify`, no local JDK needed. Dependencies are cached in a
+volume, so only the first run is slow.
+
+Two things to know before you rely on it. It is noticeably slower than a local
+build, especially on Windows, where a Maven build reads thousands of files across
+a bind mount. And Claude Code runs on your machine, not in the container — when
+it writes tests and wants to run them, it will reach for `./mvnw` unless your
+`AGENTS.md` tells it to use this command instead.
+
+A local JDK is the smoother path. Use this one only if you have no choice.
 
 ## Maven — not needed
 

@@ -44,8 +44,7 @@ Tests: right-click `src/test/java`, then **Run 'All Tests'**.
 
 ### Docker
 
-The image brings its own JDK, so this runs the service without one — but the image
-build skips the tests, so it is no substitute for `./mvnw verify`:
+The image brings its own JDK, so this runs the service without one:
 
 ```bash
 docker compose up --build
@@ -57,6 +56,16 @@ Without compose:
 docker build -t rewe-training .
 docker run --rm -p 8080:8080 rewe-training
 ```
+
+The image build skips the tests. If you have no local JDK, a second service runs
+the full build in a container instead:
+
+```bash
+docker compose run --rm build
+```
+
+Slower than a local build, but the same result. See
+[docs/setup.md](docs/setup.md) for the caveats.
 
 ## Check that it runs
 

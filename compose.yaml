@@ -1,6 +1,20 @@
 services:
+  # Runs the service. docker compose up --build
   app:
     build: .
     image: rewe-training:local
     ports:
       - "8080:8080"
+
+  # Runs the build in a container, for machines without a local JDK.
+  # docker compose run --rm build
+  build:
+    image: maven:3.9.9-eclipse-temurin-21
+    working_dir: /build
+    volumes:
+      - .:/build
+      - maven-repo:/root/.m2
+    command: mvn -B -ntp verify
+
+volumes:
+  maven-repo:
