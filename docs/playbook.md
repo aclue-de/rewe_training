@@ -3,6 +3,11 @@
 What to do in each hands-on block: the goal, the prompts to copy, the commands,
 and how you know you are finished. Two blocks are live demos — you watch those.
 
+**Getting through the list is not the point.** The point is a way of working where
+you stay in control of what the agent does — where you can say afterwards which
+decisions were yours and which it made for you. If a block runs out of time on
+that question, it did its job.
+
 | Block | | Result |
 |-------|-----|--------|
 | **H1** First session | 35 min | `AGENTS.md` |
@@ -104,6 +109,10 @@ prompts for later use in [agents-md-prompts.md](agents-md-prompts.md).
 briefed — and the two results compared. Ticket:
 [01-products-filterable.md](../issues/01-products-filterable.md).
 
+You are not here to understand the service. Nobody understands an unfamiliar
+codebase in ten minutes, and you don't need to: what you are comparing is the two
+prompts, not the two implementations.
+
 No branch switching. Run 1 gets discarded, run 2 stays. Fill each column while
 that run is still there.
 
@@ -119,8 +128,13 @@ what was never asked. Ask instead, after each run:
 
 ```
 Which decisions did you make that the ticket did not specify? For each, say where
-it is written down.
+it is written down. At most five lines, one per decision, no explanation.
 ```
+
+Expect a long answer anyway — the last sentence helps, it does not guarantee. That
+is fine: write down **how many** decisions it names and move on. Copy one or two
+out only if they interest you. Reading the whole answer is not what the block is
+for.
 
 ### Run 1 — 10 min
 
