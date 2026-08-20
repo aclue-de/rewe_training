@@ -3,6 +3,11 @@
 What to do in each hands-on block: the goal, the prompts to copy, the commands,
 and how you know you are finished. Two blocks are live demos — you watch those.
 
+**Getting through the list is not the point.** The point is a way of working where
+you stay in control of what the agent does — where you can say afterwards which
+decisions were yours and which it made for you. If a block runs out of time on
+that question, it did its job.
+
 | Block | | Result |
 |-------|-----|--------|
 | **H1** First session | 35 min | `AGENTS.md` |
@@ -93,9 +98,6 @@ it were written there.
 - it holds conventions that `/init` did not find on its own
 - no line in it would be false once today's work is finished
 
-More on the criteria in [writing-agents-md.md](writing-agents-md.md), and the
-prompts for later use in [agents-md-prompts.md](agents-md-prompts.md).
-
 ---
 
 ## H2 · Right-sizing — 30 min
@@ -103,6 +105,10 @@ prompts for later use in [agents-md-prompts.md](agents-md-prompts.md).
 **Goal:** the same task twice — once handed over as it stands, once properly
 briefed — and the two results compared. Ticket:
 [01-products-filterable.md](../issues/01-products-filterable.md).
+
+You are not here to understand the service. Nobody understands an unfamiliar
+codebase in ten minutes, and you don't need to: what you are comparing is the two
+prompts, not the two implementations.
 
 No branch switching. Run 1 gets discarded, run 2 stays. Fill each column while
 that run is still there.
@@ -119,8 +125,13 @@ what was never asked. Ask instead, after each run:
 
 ```
 Which decisions did you make that the ticket did not specify? For each, say where
-it is written down.
+it is written down. At most five lines, one per decision, no explanation.
 ```
+
+Expect a long answer anyway — the last sentence helps, it does not guarantee. That
+is fine: write down **how many** decisions it names and move on. Copy one or two
+out only if they interest you. Reading the whole answer is not what the block is
+for.
 
 ### Run 1 — 10 min
 
@@ -221,9 +232,9 @@ Then commit.
 will need those tests in H6 anyway. Check it works without naming the skill:
 `Pin down what DepositCalculator does today so I can refactor it safely.`
 
-**B · Clean up an instruction file.** Turn the prompts from
-[agents-md-prompts.md](agents-md-prompts.md) into a skill and try it on your own
-`AGENTS.md`. Check: `My AGENTS.md has grown. Clean it up.`
+**B · Clean up an instruction file.** Turn the two audit prompts from H1 into a
+skill and try it on your own `AGENTS.md`. Check:
+`My AGENTS.md has grown. Clean it up.`
 
 ### Done when the skill has triggered once on its own
 
@@ -337,13 +348,31 @@ ticket, each with the decision and one sentence of reasoning, then the steps in
 order. No code yet.
 ```
 
-Have the plan reviewed, ideally from a fresh session:
+The first draft does not have to be right. It is a file, so it can be corrected,
+reviewed by someone else, handed to a colleague, or picked up in a later session —
+none of which works for a plan that only lives in the chat.
+
+A file also keeps the context lean. Requirements that live in the chat get
+restated turn after turn until the window is full of them. A file gets pointed at
+once, and it frames the work instead of piling up inside it.
+
+Have it reviewed, ideally from a fresh session:
 
 ```
 Read docs/plan-deposit-return.md. What is wrong with it, what did it miss?
 ```
 
-Then commit.
+Feed the findings back into the file rather than rewriting it. Then commit.
+
+Some decisions outlive the ticket — where the filter belongs, whether validation
+rejects or clamps a bad value. An Architecture Decision Record holds such a
+decision and the reasoning for it: why this way and not the alternatives. What
+follows from it — the behaviour to build and to verify against — belongs in a spec,
+and that spec is what you brief the agent with next time. The ADR answers why, the
+spec answers what.
+
+Writing either one out of a session is recurring work, which makes it a good
+candidate for a skill of its own.
 
 ### 4 · Secure the existing behaviour
 
