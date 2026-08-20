@@ -348,13 +348,31 @@ ticket, each with the decision and one sentence of reasoning, then the steps in
 order. No code yet.
 ```
 
-Have the plan reviewed, ideally from a fresh session:
+The first draft does not have to be right. It is a file, so it can be corrected,
+reviewed by someone else, handed to a colleague, or picked up in a later session —
+none of which works for a plan that only lives in the chat.
+
+A file also keeps the context lean. Requirements that live in the chat get
+restated turn after turn until the window is full of them. A file gets pointed at
+once, and it frames the work instead of piling up inside it.
+
+Have it reviewed, ideally from a fresh session:
 
 ```
 Read docs/plan-deposit-return.md. What is wrong with it, what did it miss?
 ```
 
-Then commit.
+Feed the findings back into the file rather than rewriting it. Then commit.
+
+Some decisions outlive the ticket — where the filter belongs, whether validation
+rejects or clamps a bad value. An Architecture Decision Record holds such a
+decision and the reasoning for it: why this way and not the alternatives. What
+follows from it — the behaviour to build and to verify against — belongs in a spec,
+and that spec is what you brief the agent with next time. The ADR answers why, the
+spec answers what.
+
+Writing either one out of a session is recurring work, which makes it a good
+candidate for a skill of its own.
 
 ### 4 · Secure the existing behaviour
 
