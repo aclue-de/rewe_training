@@ -98,9 +98,6 @@ it were written there.
 - it holds conventions that `/init` did not find on its own
 - no line in it would be false once today's work is finished
 
-More on the criteria in [writing-agents-md.md](writing-agents-md.md), and the
-prompts for later use in [agents-md-prompts.md](agents-md-prompts.md).
-
 ---
 
 ## H2 · Right-sizing — 30 min
@@ -235,9 +232,9 @@ Then commit.
 will need those tests in H6 anyway. Check it works without naming the skill:
 `Pin down what DepositCalculator does today so I can refactor it safely.`
 
-**B · Clean up an instruction file.** Turn the prompts from
-[agents-md-prompts.md](agents-md-prompts.md) into a skill and try it on your own
-`AGENTS.md`. Check: `My AGENTS.md has grown. Clean it up.`
+**B · Clean up an instruction file.** Turn the two audit prompts from H1 into a
+skill and try it on your own `AGENTS.md`. Check:
+`My AGENTS.md has grown. Clean it up.`
 
 ### Done when the skill has triggered once on its own
 
