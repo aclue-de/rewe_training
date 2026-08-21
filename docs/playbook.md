@@ -288,8 +288,22 @@ Nothing to build. Two files, same format, different purpose:
 | `.claude/settings.json` | what applies to everyone on the repo | yes |
 | `.claude/settings.local.json` | what applies only to you | no, gitignored |
 
-A hook that formats after every edit, and a rule that stops the agent from
-pushing:
+**This is configuration, not instruction.** `AGENTS.md` is read by the model, which
+then follows it or does not. `settings.json` is read by Claude Code itself and
+applied without asking the model — a hook runs, a `deny` rule holds, whatever the
+model intends. That is the difference between asking for a standard and enforcing
+one.
+
+The shared one holds a hook that formats after every edit and a rule that stops the
+agent from pushing. Have it created rather than writing the JSON yourself:
+
+```
+Create .claude/settings.json for this project with two things: a PostToolUse hook
+on Edit and Write that runs the formatter, and a permission rule that denies
+git push.
+```
+
+Check the result — it has to look like this:
 
 ```json
 {
@@ -307,7 +321,21 @@ pushing:
 }
 ```
 
-Then try it — have the agent attempt a push and watch the rule block it:
+Two entries, two mechanisms. The **hook** runs `spotless:apply` after every edit —
+a Maven goal that rewrites the files until they match the format configured in
+`pom.xml`. Its sibling `spotless:check` only reports and fails the build, and that
+one is bound to `verify`. A hook uses `apply`, because it should fix quietly rather
+than break; `-q` keeps it from flooding the console. The **deny rule** takes `git
+push` away from the agent, so nothing leaves the machine unless a human sends it.
+
+Then the private one, with something that concerns nobody else:
+
+```
+Now create .claude/settings.local.json with a permission rule that only concerns
+me: allow ./mvnw without asking.
+```
+
+And try it — have the agent attempt a push and watch the rule block it:
 
 ```bash
 git push
