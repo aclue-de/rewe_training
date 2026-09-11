@@ -38,7 +38,7 @@ Working from the container build? Then every `./mvnw` line below is
 `docker compose run --rm verify` for you, as the comments note. Put that command in
 your `AGENTS.md` in H1, otherwise Claude Code keeps reaching for `./mvnw`.
 
-Commit after every block. At the end, the whole day is one branch of history.
+Commit after *every* block. At the end, the whole day is one branch of history.
 
 ---
 
@@ -46,15 +46,17 @@ Commit after every block. At the end, the whole day is one branch of history.
 
 **Goal:** an `AGENTS.md` that describes this project.
 
-### 1 · Let `/init` run
+### 1 · Let `/init` run inside claude
 
 ```
 /init
 ```
 
-It writes a `CLAUDE.md`. Don't read it and nod — the next two prompts work on it.
+It writes a `CLAUDE.md`. You don't need to read it all — the next two prompts work on it.
 
 ### 2 · Remove what does not belong
+
+Not everything in an automatic CLAUDE.md is useful. It helps to trim it down. Apply the example prompt below.
 
 ```
 Audit this instruction file. For each rule ask two things: does it exist because
@@ -65,7 +67,11 @@ At most five findings, one line each, worst first, no prose. Then stop — do no
 edit anything.
 ```
 
+This only gives you parts that could be cleaned. It does not change it on its own. Tell it to trim those entries you think can be removed.
+
 ### 3 · Add what is missing
+
+For more complex repositorys it could help to let the agent run again from time to time. This is an example prompt to get a refreshed idea what could be included.
 
 ```
 Ignore this file and read the code instead. Name up to five conventions this
@@ -81,7 +87,7 @@ then apply.
 
 ### 4 · Rename and commit
 
-The file is called `AGENTS.md`. `CLAUDE.md` keeps one line that imports it.
+For REWE the AI instructions need to be saved in a AGENTS.md. Move the contents over and import the AGENTS.md inside the CLAUDE.md so Claude Code can still work. Run those commands in the normal terminal, not as a prompt.
 
 ```bash
 mv CLAUDE.md AGENTS.md
@@ -97,6 +103,8 @@ it were written there.
 - `AGENTS.md` exists and `CLAUDE.md` imports it
 - it holds conventions that `/init` did not find on its own
 - no line in it would be false once today's work is finished
+
+> For the next tasks it can help to let Claude explain the repository for you of how it works, what it does and what the content is about.
 
 ---
 
