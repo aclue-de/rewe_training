@@ -5,17 +5,20 @@ The exercise project for the AI Enablement Base AI Training.
 It is deliberately small: a product catalogue that works, and one endpoint that
 does not. Building that endpoint is the exercise.
 
+**Doing the training?** Start with [docs/playbook.md](docs/playbook.md) — every
+block with its steps and prompts.
+
 ## What you need
 
-| Tool              | Version                            | Needed for                          |
-|-------------------|------------------------------------|-------------------------------------|
-| JDK               | 21                                 | building and running the service    |
-| IntelliJ IDEA     | 2023.3 or newer, Community is fine | working on the code                 |
-| Claude Code CLI   | current                            | every exercise in the training      |
-| Git               | any                                | cloning this repository             |
-| Docker            | 24 or newer — optional             | running the service without a JDK   |
+| Tool            | Version                       | Needed for                                    |
+|-----------------|-------------------------------|-----------------------------------------------|
+| JDK             | 21                            | everything — building, tests, running          |
+| Claude Code CLI | current                       | every exercise in the training                 |
+| Git             | any                           | cloning and branching                          |
+| IntelliJ IDEA   | 2023.3 or newer — optional    | working in an IDE instead of the terminal      |
+| Docker          | 24 or newer — optional        | running the service; does not replace the JDK  |
 
-Maven is not on the list: `mvnw` downloads it.
+Maven is not on the list: `mvnw` downloads it on first use.
 
 Install steps and a check per tool: [docs/setup.md](docs/setup.md).
 
@@ -41,10 +44,12 @@ Tests: right-click `src/test/java`, then **Run 'All Tests'**.
 
 ### Docker
 
-No JDK needed, the image brings its own:
+The image brings its own JDK, so this runs the service without one:
 
 ```bash
-docker compose up --build
+docker compose up --build          # first start, builds the image
+docker compose up                  # later starts
+docker compose down                # stop it
 ```
 
 Without compose:
@@ -53,6 +58,16 @@ Without compose:
 docker build -t rewe-training .
 docker run --rm -p 8080:8080 rewe-training
 ```
+
+The image build skips the tests. If you have no local JDK, a second service runs
+the full build in a container instead:
+
+```bash
+docker compose run --rm verify
+```
+
+Slower than a local build, but the same result. See
+[docs/setup.md](docs/setup.md) for the caveats.
 
 ## Check that it runs
 
