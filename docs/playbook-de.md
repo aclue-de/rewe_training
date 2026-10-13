@@ -475,17 +475,17 @@ tut, was der Plan sagt, und ob der Build grün bleibt.
 ### So geht ihr vor
 
 1. **Modell und Effort wählen** für die Planung.
-2. **Plan schreiben lassen:** mit Regeln für die Umsetzung, in Teilschritte
-   geschnitten.
+2. **Plan schreiben lassen:** als Datei, mit übergreifenden Regeln für die
+   Ausführung und Teilschritten mit eigenen Regeln, Modell und Effort.
 3. **Plan prüfen lassen**, committen, Kontext leeren.
 4. **Jeden Teilschritt einzeln:** Modell und Effort wählen, umsetzen und den Plan
-   aktualisieren lassen, selbst testen, committen, Kontext leeren. Bis der Plan
-   durch ist.
+   aktualisieren lassen, selbst testen, committen, Prompt für die nächste
+   Session kopieren, Kontext leeren. Bis der Plan durch ist.
 5. **Abnehmen:** gegen die Akzeptanzkriterien.
 
 ### 1 · Modell und Effort für die Planung wählen
 
-Bewusst, und sagt warum.
+Entscheidet euch bewusst und begründet die Wahl in einem Satz.
 
 ```
 /model
@@ -501,26 +501,51 @@ Bewusst, und sagt warum.
 Lies issues/02-deposit-return.md und schreib einen Plan nach
 docs/plan-deposit-return.md. Noch kein Code.
 
-Aufbau des Plans:
-1. Regeln für die Umsetzung, die bei jedem Teilschritt gelten:
-   - nur den genannten Teilschritt umsetzen
-   - danach diesen Plan aktualisieren: Teilschritt abhaken, Abweichungen vom
-     Plan und neue Entscheidungen mit einem Satz Begründung eintragen
-   - der Build ist danach grün
-   - nicht committen
-   - im Chat nur: geänderte Dateien und wie ich den Teilschritt teste, kurz
-     und klar
-2. Die drei offenen Fragen aus dem Ticket, jede mit Entscheidung und einem Satz
-   Begründung.
-3. Höchstens fünf Teilschritte in Reihenfolge. Jeder ist einzeln reviewbar,
-   einzeln testbar und committbar, und der Build ist danach grün. Pro
-   Teilschritt: Ziel, betroffene Dateien, wie ich ihn teste, empfohlenes Modell
-   und Effort.
+Aufbau des Plans, genau diese Abschnitte:
 
-Im Chat nur: wo der Plan liegt und wie viele Teilschritte er hat.
+1. "Regeln für die Ausführung". Übernimm diese Regeln wörtlich, sie gelten für
+   jeden Teilschritt:
+   - Jeder Teilschritt startet mit leerem Kontext (/clear). Dieser Plan ist
+     das Einzige, was aus früheren Teilschritten bekannt ist.
+   - Vor dem Teilschritt werden Modell und Effort gewählt (/model, /effort),
+     wie beim Teilschritt angegeben.
+   - Nur den genannten Teilschritt umsetzen und seine eigenen Regeln einhalten.
+   - Danach ist ./mvnw -B -ntp verify grün.
+   - Danach diesen Plan aktualisieren: Teilschritt abhaken, Abweichungen vom
+     Plan und neue Entscheidungen mit einem Satz Begründung eintragen.
+   - Nicht committen. Wir testen selbst und committen Code und Plan zusammen.
+   - Im Chat nur: geänderte Dateien und wie wir den Teilschritt testen. Kurz
+     und klar.
+   - Zum Schluss im Chat ein kurzer Prompt für die nächste Session nach
+     /clear, als Codeblock zum Kopieren: welches Modell und welcher Effort,
+     wo der Plan liegt, welcher Teilschritt als nächster dran ist und dass
+     die Regeln im Plan gelten. Ist der Plan durch, steht dort stattdessen
+     die Abnahme gegen die Akzeptanzkriterien.
+   - Nach dem Commit wird der Kontext geleert (/clear).
+2. "Entscheidungen": Das Ticket listet unter "Open questions" drei Fragen,
+   die vor der Umsetzung entschieden werden müssen. Beantworte jede: wie
+   sich der Endpunkt verhält, mit einem Satz Begründung.
+3. "Teilschritte": höchstens fünf, in Reihenfolge. Jeder ist einzeln
+   reviewbar, einzeln testbar und committbar, und der Build ist danach grün.
+   Pro Teilschritt genau diese Punkte:
+   - [ ] Status zum Abhaken
+   - Ziel in einem Satz
+   - betroffene Dateien
+   - Modell und Effort, mit einem Satz Begründung
+   - Regeln für diesen Teilschritt: was angefasst werden darf, was nicht,
+     und worauf besonders zu achten ist
+   - wie wir ihn testen
+   - fertig, wenn: woran man sieht, dass er abgeschlossen ist
+
+Im Chat nur: wo der Plan liegt, wie viele Teilschritte er hat und mit welchem
+Modell und Effort Teilschritt 1 startet.
 ```
 
 Die Regeln stehen im Plan, damit sie nach jedem `/clear` weiter gelten.
+Prüft die Datei, bevor ihr weitermacht: Fehlt bei einem Teilschritt Modell und
+Effort oder fehlen in den Regeln `/clear` und das Aktualisieren des Plans, lasst
+es nachtragen. Lest auch die Entscheidungen: Sie hat Claude getroffen. Ändert,
+was ihr anders haben wollt.
 
 ### 3 · Den Plan prüfen lassen
 
@@ -532,9 +557,11 @@ Mit leerem Kontext prüfen lassen:
 
 ```
 Lies docs/plan-deposit-return.md. Was ist daran falsch, was fehlt? Ist jeder
-Teilschritt einzeln reviewbar, testbar und committbar? Fehlen Regeln für die
-Umsetzung? Höchstens fünf Befunde, je eine Zeile. Kurz und klar, nur Fakten.
-Noch nichts ändern.
+Teilschritt einzeln reviewbar, testbar und committbar? Hat jeder Teilschritt
+Modell und Effort, eigene Regeln, einen Test und ein Fertig-Kriterium? Fehlt in
+den Regeln für die Ausführung etwas, etwa /clear, Modellwahl, das
+Aktualisieren des Plans oder der Prompt für die nächste Session? Höchstens fünf Befunde, je eine Zeile. Kurz und klar,
+nur Fakten. Noch nichts ändern.
 ```
 
 Die Grenze von fünf Befunden ist Absicht: Ihr sollt nicht Stunden damit
@@ -555,8 +582,8 @@ git add docs/plan-deposit-return.md && git commit -m "Add plan for the deposit r
 
 Für jeden Teilschritt im Plan, der Reihe nach:
 
-**Modell und Effort wählen.** Bewusst, die Empfehlung im Plan ist der
-Ausgangspunkt.
+**Modell und Effort wählen,** wie beim Teilschritt im Plan angegeben. Weicht
+ihr bewusst ab, sagt warum.
 
 ```
 /model
@@ -566,12 +593,15 @@ Ausgangspunkt.
 /effort
 ```
 
-**Umsetzen lassen:**
+**Umsetzen lassen.** Für Teilschritt 1:
 
 ```
-Setz Teilschritt <n> aus docs/plan-deposit-return.md um. Halte dich an die
-Regeln für die Umsetzung im Plan.
+Lies docs/plan-deposit-return.md. Setz Teilschritt 1 um. Halte dich an die
+Regeln für die Ausführung und an die Regeln des Teilschritts.
 ```
+
+Ab Teilschritt 2 nehmt ihr den Prompt, den Claude am Ende des vorigen
+Teilschritts für die nächste Session ausgegeben hat.
 
 **Selbst testen,** so wie der Plan es für den Teilschritt vorsieht, und immer:
 
@@ -582,12 +612,21 @@ Regeln für die Umsetzung im Plan.
 Ist `verify` rot, lasst Claude nachbessern, bevor ihr committet.
 
 Prüft auch, ob der Plan aktualisiert ist: Teilschritt abgehakt, Abweichungen und
-neue Entscheidungen eingetragen. Sonst Claude daran erinnern.
+neue Entscheidungen eingetragen. Sonst Claude daran erinnern, bevor ihr
+committet, denn nach `/clear` ist nur noch der Plan da.
 
 **Committen,** Code und aktualisierten Plan zusammen:
 
 ```bash
 git add -A && git commit -m "<was der Teilschritt tut>"
+```
+
+**Prompt für die nächste Session kopieren.** Claude hat ihn am Ende des
+Teilschritts als Codeblock ausgegeben. Fehlt er, fordert ihn an:
+
+```
+Gib mir den kurzen Prompt für die nächste Session nach /clear, wie in den
+Regeln im Plan beschrieben.
 ```
 
 **Kontext leeren:**
@@ -596,7 +635,8 @@ git add -A && git commit -m "<was der Teilschritt tut>"
 /clear
 ```
 
-Dann der nächste Teilschritt, bis der Plan durch ist.
+Dann Modell und Effort wählen, wie im kopierten Prompt angegeben, und den
+Prompt einfügen. So weiter, bis der Plan durch ist.
 
 ### 5 · Abnehmen
 
