@@ -11,14 +11,14 @@ merkt, dass ihr fertig seid.
 können, welche Entscheidungen eure waren und welche die KI getroffen hat. Geht
 darüber die Zeit aus, ist das in Ordnung.
 
-| Block | Dauer | Ziel | Ergebnis |
-|-------|-------|------|----------|
-| **H1** Erste Session | 35 min | Claude Code den Projektkontext geben | `AGENTS.md` |
-| **H2** Schneiden und Anti-Pattern | 30 min | sehen, dass Entscheidungen fallen, auch wenn ihr sie nicht trefft | eure Zahlen in der Miro-Tabelle |
-| **H3** Eigener Skill | 35 min | Wiederkehrendes nicht jedes Mal neu erklären | `SKILL.md` |
-| **H4** Subagent | 8 min | Arbeit mit begrenzten Rechten abgeben | `.claude/agents/money-audit.md` |
-| **H5** Team-Konfiguration | 8 min | Regeln durchsetzen statt erbitten | `.claude/settings.json` |
-| **H6** Der große Block | 45 min | ein Ticket nach Plan in reviewbaren Teilschritten umsetzen | Plan-Datei und ein Commit pro Teilschritt |
+| Block | Ziel | Ergebnis |
+|-------|------|----------|
+| **H1** Schneiden und Anti-Pattern | sehen, dass Entscheidungen fallen, ob ihr sie vorgebt oder Claude plausibel rät | eure Zahlen in der Miro-Tabelle |
+| **H2** Projektkontext | Claude Code den Projektkontext geben | `AGENTS.md` |
+| **H3** Eigener Skill | Wiederkehrendes nicht jedes Mal neu erklären | `SKILL.md` |
+| **H4** Subagent | Arbeit mit begrenzten Rechten abgeben | `.claude/agents/money-audit.md` |
+| **H5** Team-Konfiguration | Regeln durchsetzen statt erbitten | `.claude/settings.json` |
+| **H6** Der große Block | ein Ticket nach Plan in reviewbaren Teilschritten umsetzen | Plan-Datei und ein Commit pro Teilschritt |
 
 Die Tickets liegen in [../issues](../issues), die Einrichtung in
 [setup.md](setup.md), die API in [api.md](api.md).
@@ -37,13 +37,182 @@ Erwartet: `Tests run: 13, Failures: 0` und `BUILD SUCCESS`. Kein `-q` verwenden.
 Das `WARN` zu `must not be empty` ist kein Fehler.
 
 Ohne lokales JDK ersetzt `docker compose run --rm verify` jede `./mvnw`-Zeile.
-Schreibt den Befehl in H1 in eure `AGENTS.md`.
+Schreibt den Befehl in H2 in eure `AGENTS.md`.
 
 Nach *jedem* Block committen.
 
 ---
 
-## H1 · Erste Session — 35 min
+## H1 · Schneiden und Anti-Pattern
+
+**Ziel:** Ihr seht, dass bei jeder Umsetzung Entscheidungen getroffen werden, ob
+ihr sie vorgebt oder Claude plausibel rät. Dazu setzt Claude dasselbe Ticket
+zweimal um.
+Ticket: [01-products-filterable.md](../issues/01-products-filterable.md).
+
+Ihr lest keinen Code und bewertet keine Lösung. Verglichen werden die Zahlen.
+
+### So geht ihr vor
+
+1. **Lauf 1:** Ticket unverändert übergeben und einfach erledigen lassen.
+2. **Tabelle für Lauf 1 ausfüllen lassen:** Claude misst, ihr übertragt.
+3. **Alles zurücksetzen:** Kontext und Arbeitsverzeichnis leeren.
+4. **Lauf 2:** Erst die KI alle offenen Punkte mit Empfehlung nennen und in einen
+   Auftrag gießen lassen. Die Empfehlungen übernehmt ihr als eure Entscheidungen,
+   dann setzt Claude den Auftrag um.
+5. **Tabelle für Lauf 2 ausfüllen lassen:** mit demselben Prompt wie in Lauf 1.
+6. **In Miro eintragen:** Beide Spalten gehören in die Tabelle auf dem Miro-Board,
+   damit wir die Ergebnisse der Teams vergleichen können.
+
+Kein Branch-Wechsel. Füllt jede Spalte aus, solange der Lauf noch da ist.
+
+| | Lauf 1 | Lauf 2 |
+|---|---|---|
+| Dateien / Zeilen *(insertions / deletions)* | | |
+| Entscheidungen, die die KI für euch getroffen hat *(Anzahl)* | | |
+| davon festgehalten *(Anzahl)* | | |
+| `verify` grün? *(ja / nein · Anzahl Tests)* | | |
+
+### Lauf 1
+
+Das Zurücksetzen nach Lauf 1 löscht alles, was nicht committet ist. Deshalb
+vorher:
+
+```bash
+git status --short
+```
+
+Die Ausgabe muss leer sein, sonst fragt uns.
+
+```
+Setz um, was issues/01-products-filterable.md verlangt. Einfach erledigen.
+```
+
+Nicht eingreifen. Fragt Claude zurück, antwortet: „Entscheide selbst."
+
+Ist Claude fertig, lasst die Tabelle ausfüllen. Die Tabelle erst jetzt geben,
+nie im Umsetzungs-Prompt: Sonst weiß Claude vorher, dass Entscheidungen gezählt
+werden.
+
+```
+Füll diese Tabelle für den Lauf eben aus. Nichts ändern, nichts reparieren, nur
+messen.
+
+| | Lauf 1 |
+|---|---|
+| Dateien / Zeilen (insertions / deletions) aus git add -A && git --no-pager diff --cached --stat | |
+| Entscheidungen, die du getroffen hast und die weder im Ticket noch in einem von mir freigegebenen Auftrag vorgegeben waren (Anzahl) | |
+| davon festgehalten, also ausdrücklich beschrieben in einem Kommentar, einem Test oder einer Doku (Anzahl) | |
+| verify grün? (ja / nein · Anzahl Tests aus "Tests run:" unter "Results:") mit ./mvnw -B -ntp verify, ohne lokales JDK: docker compose run --rm verify | |
+
+Darunter jede Entscheidung in einer Zeile: was du entschieden hast und wo es
+festgehalten ist, sonst „nirgends". Kurz und klar, nur Fakten.
+```
+
+Übertragt die Werte in eure Spalte „Lauf 1". Rot bei `verify` ist ein Befund,
+kein Grund aufzuhören. Sieht ein Wert unplausibel aus, messt selbst nach (siehe
+[Selbst nachmessen](#selbst-nachmessen)).
+
+Dann Kontext und Arbeitsverzeichnis leeren. Nur ausführen, wenn `git status
+--short` vor Lauf 1 leer war:
+
+```
+/clear
+```
+
+```bash
+git reset --hard && git clean -fd
+```
+
+### Lauf 2
+
+```
+Schreib noch keinen Code. Welche Punkte lässt issues/01-products-filterable.md
+offen? Liste alle offenen Punkte, jeweils mit deiner Empfehlung in einer Zeile.
+Formuliere daraus einen Auftrag in vier Bausteinen: Kontext, Ziel,
+Einschränkungen, Format. Kurz und klar, nur Fakten.
+```
+
+Die Empfehlungen übernehmt ihr ohne Bewertung. Damit gelten sie als eure
+Entscheidungen. Im Produktivcode würdet ihr sie bewerten, dafür fehlt hier die
+Zeit.
+
+```
+Übernimm alle deine Empfehlungen und setz den Auftrag um.
+```
+
+Ist Claude fertig, lasst die Tabelle mit demselben Prompt wie in Lauf 1
+ausfüllen, wörtlich gleich bis auf den Spaltennamen, damit die Zahlen
+vergleichbar bleiben:
+
+```
+Füll diese Tabelle für den Lauf eben aus. Nichts ändern, nichts reparieren, nur
+messen.
+
+| | Lauf 2 |
+|---|---|
+| Dateien / Zeilen (insertions / deletions) aus git add -A && git --no-pager diff --cached --stat | |
+| Entscheidungen, die du getroffen hast und die weder im Ticket noch in einem von mir freigegebenen Auftrag vorgegeben waren (Anzahl) | |
+| davon festgehalten, also ausdrücklich beschrieben in einem Kommentar, einem Test oder einer Doku (Anzahl) | |
+| verify grün? (ja / nein · Anzahl Tests aus "Tests run:" unter "Results:") mit ./mvnw -B -ntp verify, ohne lokales JDK: docker compose run --rm verify | |
+
+Darunter jede Entscheidung in einer Zeile: was du entschieden hast und wo es
+festgehalten ist, sonst „nirgends". Kurz und klar, nur Fakten.
+```
+
+Übertragt die Werte in eure Spalte „Lauf 2". Ist die Spalte ausgefüllt,
+committen:
+
+```bash
+git add -A && git commit -m "Filter the product list by packaging type"
+```
+
+### Selbst nachmessen
+
+Wenn ihr Claudes Werte prüfen wollt oder einer unplausibel aussieht. Gilt für
+beide Läufe, immer vor dem Zurücksetzen oder Committen.
+
+**Dateien / Zeilen:**
+
+```bash
+git add -A && git --no-pager diff --cached --stat
+```
+
+`git add -A` sorgt dafür, dass auch neu angelegte Dateien mitgezählt werden.
+
+**Entscheidungen und davon festgehalten:** in beiden Läufen wörtlich gleich,
+damit die Zahlen vergleichbar bleiben.
+
+```
+Welche Entscheidungen hast du bei der Umsetzung getroffen, die weder im Ticket
+noch in einem von mir freigegebenen Auftrag vorgegeben waren? Pro Entscheidung
+eine kurze Zeile: was du entschieden hast und wo es festgehalten ist, sonst
+„nirgends". Festgehalten heißt ausdrücklich beschrieben, etwa in einem
+Kommentar, einem Test oder einer Doku.
+Zum Schluss zwei Zahlen: Entscheidungen gesamt, davon festgehalten.
+Kurz und klar, nur Fakten. Kein ergänzender oder erklärender Text.
+```
+
+Wird die Antwort trotzdem lang, notiert nur die beiden Zahlen.
+
+**`verify` grün? · Anzahl Tests:**
+
+```bash
+./mvnw -B -ntp verify              # ohne lokales JDK: docker compose run --rm verify
+```
+
+Notiert grün oder rot und die Zahl aus der Zeile `Tests run:` unter `Results:`.
+
+### In Miro eintragen
+
+Tragt beide Spalten in die Tabelle auf dem Miro-Board ein. Besprochen wird
+gemeinsam, wenn alle Teams eingetragen haben.
+
+**Fertig, wenn** beide Spalten in Miro stehen.
+
+---
+
+## H2 · Projektkontext
 
 **Ziel:** Ihr gebt Claude Code den Projektkontext. Aus dem Entwurf von `/init`
 wird eine `AGENTS.md`.
@@ -115,167 +284,7 @@ git add -A && git commit -m "Add AGENTS.md"
 
 ---
 
-## H2 · Schneiden und Anti-Pattern — 30 min
-
-**Ziel:** Ihr seht, dass Entscheidungen getroffen werden, auch wenn ihr sie nicht
-selbst trefft. Dazu setzt Claude dasselbe Ticket zweimal um.
-Ticket: [01-products-filterable.md](../issues/01-products-filterable.md).
-
-Ihr lest keinen Code und bewertet keine Lösung. Verglichen werden die Zahlen.
-
-### So geht ihr vor
-
-1. **Stand sichern:** Alles aus H1 ist committet.
-2. **Lauf 1:** Ticket unverändert übergeben und einfach erledigen lassen.
-3. **Spalte „Lauf 1" ausfüllen:** von oben nach unten, wie in der Tabelle.
-4. **Alles zurücksetzen:** Kontext und Arbeitsverzeichnis leeren.
-5. **Lauf 2:** Erst die KI alle offenen Punkte mit Empfehlung nennen und in einen
-   Auftrag gießen lassen. Die Empfehlungen übernehmt ihr als eure Entscheidungen,
-   dann setzt Claude den Auftrag um.
-6. **Spalte „Lauf 2" ausfüllen:** von oben nach unten, wie in Lauf 1.
-7. **In Miro eintragen:** Beide Spalten gehören in die Tabelle auf dem Miro-Board,
-   damit wir die Ergebnisse der Teams vergleichen können.
-
-Kein Branch-Wechsel. Füllt jede Spalte aus, solange der Lauf noch da ist.
-
-| | Lauf 1 | Lauf 2 |
-|---|---|---|
-| Dateien / Zeilen *(insertions / deletions)* | | |
-| Entscheidungen, die die KI für euch getroffen hat *(Anzahl)* | | |
-| davon festgehalten *(Anzahl)* | | |
-| `verify` grün? *(ja / nein · Anzahl Tests)* | | |
-
-### Stand sichern
-
-Das Zurücksetzen nach Lauf 1 löscht alles, was nicht committet ist, auch eine
-nicht committete `AGENTS.md` aus H1. Deshalb vor Lauf 1:
-
-```bash
-git status --short
-```
-
-Die Ausgabe muss leer sein. Sonst erst committen:
-
-```bash
-git add -A && git commit -m "Add AGENTS.md"
-```
-
-### Lauf 1 — 10 min
-
-```
-Setz um, was issues/01-products-filterable.md verlangt. Einfach erledigen.
-```
-
-Nicht eingreifen. Fragt Claude zurück, antwortet: „Entscheide selbst."
-
-Dann füllt ihr die Spalte von oben nach unten.
-
-**Dateien / Zeilen:**
-
-```bash
-git add -A && git --no-pager diff --cached --stat
-```
-
-`git add -A` sorgt dafür, dass auch neu angelegte Dateien mitgezählt werden.
-
-**Entscheidungen und davon festgehalten:**
-
-```
-Welche Entscheidungen hast du bei der Umsetzung getroffen, die weder im Ticket
-noch in einem von mir freigegebenen Auftrag vorgegeben waren? Pro Entscheidung
-eine kurze Zeile: was du entschieden hast und wo es festgehalten ist, sonst
-„nirgends". Festgehalten heißt ausdrücklich beschrieben, etwa in einem
-Kommentar, einem Test oder einer Doku.
-Zum Schluss zwei Zahlen: Entscheidungen gesamt, davon festgehalten.
-Kurz und klar, nur Fakten. Kein ergänzender oder erklärender Text.
-```
-
-Wird die Antwort trotzdem lang, notiert nur die beiden Zahlen.
-
-**`verify` grün? · Anzahl Tests:**
-
-```bash
-./mvnw -B -ntp verify              # ohne lokales JDK: docker compose run --rm verify
-```
-
-Notiert grün oder rot und die Zahl aus der Zeile `Tests run:` unter `Results:`.
-Rot ist ein Befund, kein Grund aufzuhören.
-
-Dann Kontext und Arbeitsverzeichnis leeren. Nur ausführen, wenn ihr den Stand vor
-Lauf 1 gesichert habt:
-
-```
-/clear
-```
-
-```bash
-git reset --hard && git clean -fd
-```
-
-### Lauf 2 — 10 min
-
-```
-Schreib noch keinen Code. Welche Punkte lässt issues/01-products-filterable.md
-offen? Liste alle offenen Punkte, jeweils mit deiner Empfehlung in einer Zeile.
-Formuliere daraus einen Auftrag in vier Bausteinen: Kontext, Ziel,
-Einschränkungen, Format. Kurz und klar, nur Fakten.
-```
-
-Die Empfehlungen übernehmt ihr ohne Bewertung. Damit gelten sie als eure
-Entscheidungen. Im Produktivcode würdet ihr sie bewerten, dafür fehlt hier die
-Zeit.
-
-```
-Übernimm alle deine Empfehlungen und setz den Auftrag um.
-```
-
-Dann füllt ihr die Spalte „Lauf 2" von oben nach unten, wie in Lauf 1.
-
-**Dateien / Zeilen:**
-
-```bash
-git add -A && git --no-pager diff --cached --stat
-```
-
-**Entscheidungen und davon festgehalten:** dieselbe Frage wie in Lauf 1, wörtlich
-gleich, damit die Zahlen vergleichbar bleiben.
-
-```
-Welche Entscheidungen hast du bei der Umsetzung getroffen, die weder im Ticket
-noch in einem von mir freigegebenen Auftrag vorgegeben waren? Pro Entscheidung
-eine kurze Zeile: was du entschieden hast und wo es festgehalten ist, sonst
-„nirgends". Festgehalten heißt ausdrücklich beschrieben, etwa in einem
-Kommentar, einem Test oder einer Doku.
-Zum Schluss zwei Zahlen: Entscheidungen gesamt, davon festgehalten.
-Kurz und klar, nur Fakten. Kein ergänzender oder erklärender Text.
-```
-
-Wird die Antwort trotzdem lang, notiert nur die beiden Zahlen.
-
-**`verify` grün? · Anzahl Tests:**
-
-```bash
-./mvnw -B -ntp verify              # ohne lokales JDK: docker compose run --rm verify
-```
-
-Notiert grün oder rot und die Zahl aus der Zeile `Tests run:` unter `Results:`.
-
-Ist die Spalte ausgefüllt, committen:
-
-```bash
-git add -A && git commit -m "Filter the product list by packaging type"
-```
-
-### In Miro eintragen — 10 min
-
-Tragt beide Spalten in die Tabelle auf dem Miro-Board ein. Besprochen wird
-gemeinsam, wenn alle Teams eingetragen haben.
-
-**Fertig, wenn** beide Spalten in Miro stehen.
-
----
-
-## H3 · Eigener Skill — 35 min
+## H3 · Eigener Skill
 
 **Ziel:** Ein Skill, der von allein greift und den ihr in euer eigenes Repo
 mitnehmen könnt.
@@ -302,13 +311,13 @@ entstehen. Dann committen.
 `DepositCalculator`, die Tests braucht ihr in H6. Test ohne Skill-Namen:
 `Halte fest, was DepositCalculator heute tut, damit ich ihn gefahrlos umbauen kann.`
 
-**B · Eine Instruktionsdatei aufräumen.** Macht aus den beiden Prüf-Prompts aus H1
+**B · Eine Instruktionsdatei aufräumen.** Macht aus den beiden Prüf-Prompts aus H2
 einen Skill. Test: `Meine AGENTS.md ist gewachsen. Räum sie auf.`
 
 **C · Entscheidungen offenlegen.** Macht aus der Frage nach den Entscheidungen aus
-H2 einen Skill, der nach einer Änderung auflistet, was ohne Vorgabe entschieden
-wurde und wo es festgehalten ist. Test am letzten Commit aus H2:
-`Was steckt im letzten Commit, das das Ticket nicht vorgegeben hat?`
+H1 einen Skill, der nach einer Änderung auflistet, was ohne Vorgabe entschieden
+wurde und wo es festgehalten ist. Test am Commit aus H1:
+`Was steckt im Commit "Filter the product list by packaging type", das das Ticket nicht vorgegeben hat?`
 
 B und C bauen auf deutschen Prompts auf. Der Skill wird trotzdem auf Englisch
 geschrieben.
@@ -335,7 +344,7 @@ die description nach statt mehr Anweisungen hinzuzufügen.
 
 ---
 
-## H4 · Subagent — 8 min
+## H4 · Subagent
 
 **Ziel:** Ihr legt einen Subagent mit begrenzten Rechten an und ruft ihn gezielt
 auf.
@@ -378,7 +387,7 @@ git add .claude/agents && git commit -m "Add money-audit subagent"
 
 ---
 
-## H5 · Team-Konfiguration — 8 min
+## H5 · Team-Konfiguration
 
 **Ziel:** Eine `settings.json` mit einem Hook und einer Sperre für `git push`, die
 gelten, egal was das Modell vorhat.
@@ -461,7 +470,7 @@ git add .claude/settings.json && git commit -m "Add shared Claude Code settings"
 
 ---
 
-## H6 · Der große Block — 45 min
+## H6 · Der große Block
 
 **Ziel:** Ihr setzt ein größeres Ticket in kleinen Teilschritten um. Zuerst
 entsteht mit dem passenden Modell und Effort ein Plan als Datei. Dann wird jeder
