@@ -421,7 +421,7 @@ PostToolUse-Hook auf Edit und Write, der den Formatter ausführt, und eine
 Permission-Regel, die git push verbietet. Bestehende Einträge behalten.
 ```
 
-Prüft das Ergebnis. Die drei Playbook-Regeln müssen noch unter `deny` stehen:
+Prüft das Ergebnis. Die fünf Playbook-Regeln müssen noch unter `deny` stehen:
 
 ```json
 {
@@ -430,6 +430,8 @@ Prüft das Ergebnis. Die drei Playbook-Regeln müssen noch unter `deny` stehen:
       "Read(./docs/playbook*.md)",
       "Bash(*playbook*)",
       "PowerShell(*playbook*)",
+      "Bash(*docs/play*)",
+      "PowerShell(*docs/play*)",
       "Bash(git push)",
       "Bash(git push:*)",
       "Bash(git * push*)"
@@ -485,7 +487,7 @@ Zum Schluss prüfen, ob die Playbook-Sperre noch drin ist:
 git diff .claude/settings.json
 ```
 
-Der Diff darf nur Zeilen hinzufügen. Fehlt eine der drei Playbook-Regeln, lasst
+Der Diff darf nur Zeilen hinzufügen. Fehlt eine der fünf Playbook-Regeln, lasst
 Claude sie wieder eintragen.
 
 ### 4 · Committen

@@ -393,7 +393,7 @@ on Edit and Write that runs the formatter, and a permission rule that denies
 git push. Keep the existing entries.
 ```
 
-Check the result. The three playbook rules must still be under `deny`:
+Check the result. The five playbook rules must still be under `deny`:
 
 ```json
 {
@@ -402,6 +402,8 @@ Check the result. The three playbook rules must still be under `deny`:
       "Read(./docs/playbook*.md)",
       "Bash(*playbook*)",
       "PowerShell(*playbook*)",
+      "Bash(*docs/play*)",
+      "PowerShell(*docs/play*)",
       "Bash(git push)",
       "Bash(git push:*)",
       "Bash(git * push*)"
@@ -457,7 +459,7 @@ Finally, check that the playbook block is still there:
 git diff .claude/settings.json
 ```
 
-The diff may only add lines. If one of the three playbook rules is missing, have
+The diff may only add lines. If one of the five playbook rules is missing, have
 Claude put it back.
 
 ### 4 · Commit
