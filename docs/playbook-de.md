@@ -279,6 +279,13 @@ echo "@AGENTS.md" > CLAUDE.md
 git add -A && git commit -m "Add AGENTS.md"
 ```
 
+In Windows PowerShell statt der `echo`-Zeile, sonst lädt Claude die `AGENTS.md`
+nicht:
+
+```powershell
+Set-Content CLAUDE.md "@AGENTS.md" -Encoding ascii
+```
+
 **Fertig, wenn:**
 
 - `AGENTS.md` existiert, auf Englisch, und `CLAUDE.md` sie importiert
@@ -424,7 +431,8 @@ Prüft das Ergebnis. Die drei Playbook-Regeln müssen noch unter `deny` stehen:
       "Bash(*playbook*)",
       "PowerShell(*playbook*)",
       "Bash(git push)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git * push*)"
     ]
   },
   "hooks": {
@@ -561,7 +569,8 @@ Aufbau des Plans, genau diese Abschnitte:
    - [ ] Status zum Abhaken
    - Ziel in einem Satz
    - betroffene Dateien
-   - Modell und Effort, mit einem Satz Begründung
+   - Modell als Alias (opus, sonnet, haiku) und Effort, mit einem Satz
+     Begründung
    - Regeln für diesen Teilschritt: was angefasst werden darf, was nicht,
      und worauf besonders zu achten ist
    - wie wir ihn testen
@@ -598,7 +607,8 @@ Die Grenze von fünf Befunden ist Absicht: Ihr sollt nicht Stunden damit
 verbringen, den Code zu verstehen. Die wichtigsten Befunde reichen.
 
 Sagt Claude, welche Befunde es in die Datei einarbeiten soll. Nicht neu schreiben
-lassen. Dann committen und den Kontext leeren:
+lassen. Widerspricht ein Befund den Regeln für die Ausführung, gelten die Regeln.
+Dann committen und den Kontext leeren:
 
 ```bash
 git add docs/plan-deposit-return.md && git commit -m "Add plan for the deposit return"

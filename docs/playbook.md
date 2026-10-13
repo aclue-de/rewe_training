@@ -268,6 +268,13 @@ echo "@AGENTS.md" > CLAUDE.md
 git add -A && git commit -m "Add AGENTS.md"
 ```
 
+In Windows PowerShell use this instead of the `echo` line, otherwise Claude does
+not load `AGENTS.md`:
+
+```powershell
+Set-Content CLAUDE.md "@AGENTS.md" -Encoding ascii
+```
+
 **Done when:**
 
 - `AGENTS.md` exists and `CLAUDE.md` imports it
@@ -396,7 +403,8 @@ Check the result. The three playbook rules must still be under `deny`:
       "Bash(*playbook*)",
       "PowerShell(*playbook*)",
       "Bash(git push)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git * push*)"
     ]
   },
   "hooks": {
@@ -532,7 +540,8 @@ Structure of the plan, exactly these sections:
    - [ ] status to tick off
    - goal in one sentence
    - affected files
-   - model and effort, with one sentence of reasoning
+   - model as an alias (opus, sonnet, haiku) and effort, with one sentence of
+     reasoning
    - rules for this step: what may be touched, what may not, and what needs
      particular care
    - how we test it
@@ -567,8 +576,9 @@ one line each. Short and clear, facts only. Don't change anything yet.
 The limit of five findings is deliberate: you are not meant to spend hours
 understanding the code. The most important findings are enough.
 
-Tell Claude which findings to work into the file. Don't have it rewritten. Then
-commit and clear the context:
+Tell Claude which findings to work into the file. Don't have it rewritten. If a
+finding contradicts the rules for execution, the rules apply. Then commit and
+clear the context:
 
 ```bash
 git add docs/plan-deposit-return.md && git commit -m "Add plan for the deposit return"
