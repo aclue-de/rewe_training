@@ -41,6 +41,9 @@ Schreibt den Befehl in H2 in eure `AGENTS.md`.
 
 Nach *jedem* Block committen.
 
+Die `.claude/settings.json` im Repo sperrt die Playbooks für Claude, damit es
+euch die Übungen nicht vorwegnimmt. Nicht entfernen.
+
 ---
 
 ## H1 · Schneiden und Anti-Pattern
@@ -389,8 +392,8 @@ git add .claude/agents && git commit -m "Add money-audit subagent"
 
 ## H5 · Team-Konfiguration
 
-**Ziel:** Eine `settings.json` mit einem Hook und einer Sperre für `git push`, die
-gelten, egal was das Modell vorhat.
+**Ziel:** Ihr ergänzt die `settings.json` um einen Hook und eine Sperre für
+`git push`, die gelten, egal was das Modell vorhat.
 
 | Datei | Enthält | Im Git |
 |-------|---------|--------|
@@ -400,20 +403,29 @@ gelten, egal was das Modell vorhat.
 Die `AGENTS.md` befolgt das Modell oder nicht. Die `settings.json` setzt Claude
 Code selbst durch.
 
-### 1 · Die geteilte Datei anlegen lassen
+Die geteilte Datei gibt es schon: Sie sperrt die Playbooks für Claude. Ihr
+ergänzt sie, wie man es auch im echten Projekt tut.
+
+### 1 · Die geteilte Datei ergänzen lassen
 
 ```
-Leg .claude/settings.json für dieses Projekt an, mit zwei Dingen: einem
-PostToolUse-Hook auf Edit und Write, der den Formatter ausführt, und einer
-Permission-Regel, die git push verbietet.
+Ergänze die vorhandene .claude/settings.json um zwei Dinge: einen
+PostToolUse-Hook auf Edit und Write, der den Formatter ausführt, und eine
+Permission-Regel, die git push verbietet. Bestehende Einträge behalten.
 ```
 
-Prüft das Ergebnis:
+Prüft das Ergebnis. Die drei Playbook-Regeln müssen noch unter `deny` stehen:
 
 ```json
 {
   "permissions": {
-    "deny": ["Bash(git push)", "Bash(git push:*)"]
+    "deny": [
+      "Read(./docs/playbook*.md)",
+      "Bash(*playbook*)",
+      "PowerShell(*playbook*)",
+      "Bash(git push)",
+      "Bash(git push:*)"
+    ]
   },
   "hooks": {
     "PostToolUse": [
@@ -459,14 +471,23 @@ Führ git push aus.
 Claude Code muss ablehnen, ohne zu fragen. Fragt es, greift die Regel nicht: mit
 Nein antworten und prüfen, ob `deny` unter `permissions` steht.
 
+Zum Schluss prüfen, ob die Playbook-Sperre noch drin ist:
+
+```bash
+git diff .claude/settings.json
+```
+
+Der Diff darf nur Zeilen hinzufügen. Fehlt eine der drei Playbook-Regeln, lasst
+Claude sie wieder eintragen.
+
 ### 4 · Committen
 
 ```bash
-git add .claude/settings.json && git commit -m "Add shared Claude Code settings"
+git add .claude/settings.json && git commit -m "Extend shared Claude Code settings"
 ```
 
-**Fertig, wenn** der Hook nachformatiert hat, der Push abgelehnt wurde und nur die
-`settings.json` committet ist.
+**Fertig, wenn** der Hook nachformatiert hat, der Push abgelehnt wurde, die
+Playbook-Sperre noch drin ist und nur die `settings.json` committet ist.
 
 ---
 

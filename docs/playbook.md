@@ -40,6 +40,9 @@ line. Put that command in your `AGENTS.md` in H2.
 
 Commit after *every* block.
 
+The `.claude/settings.json` in the repo blocks the playbooks for Claude, so it
+does not give away the exercises. Don't remove it.
+
 ---
 
 ## H1 · Right-sizing and anti-patterns
@@ -361,8 +364,8 @@ git add .claude/agents && git commit -m "Add money-audit subagent"
 
 ## H5 · Team configuration
 
-**Goal:** a `settings.json` with a hook and a block on `git push` that apply
-whatever the model intends.
+**Goal:** you extend `settings.json` with a hook and a block on `git push` that
+apply whatever the model intends.
 
 | File | Holds | In git |
 |------|-------|--------|
@@ -372,20 +375,29 @@ whatever the model intends.
 The model follows `AGENTS.md` or it doesn't. Claude Code enforces `settings.json`
 itself.
 
-### 1 · Have the shared file created
+The shared file already exists: it blocks the playbooks for Claude. You extend
+it, as you would in a real project.
+
+### 1 · Have the shared file extended
 
 ```
-Create .claude/settings.json for this project with two things: a PostToolUse hook
+Extend the existing .claude/settings.json with two things: a PostToolUse hook
 on Edit and Write that runs the formatter, and a permission rule that denies
-git push.
+git push. Keep the existing entries.
 ```
 
-Check the result:
+Check the result. The three playbook rules must still be under `deny`:
 
 ```json
 {
   "permissions": {
-    "deny": ["Bash(git push)", "Bash(git push:*)"]
+    "deny": [
+      "Read(./docs/playbook*.md)",
+      "Bash(*playbook*)",
+      "PowerShell(*playbook*)",
+      "Bash(git push)",
+      "Bash(git push:*)"
+    ]
   },
   "hooks": {
     "PostToolUse": [
@@ -431,14 +443,23 @@ Run git push.
 Claude Code has to refuse without asking. If it asks, the rule is not working:
 answer no and check that `deny` sits under `permissions`.
 
+Finally, check that the playbook block is still there:
+
+```bash
+git diff .claude/settings.json
+```
+
+The diff may only add lines. If one of the three playbook rules is missing, have
+Claude put it back.
+
 ### 4 · Commit
 
 ```bash
-git add .claude/settings.json && git commit -m "Add shared Claude Code settings"
+git add .claude/settings.json && git commit -m "Extend shared Claude Code settings"
 ```
 
-**Done when** the hook has reformatted the file, the push was refused and only
-`settings.json` is committed.
+**Done when** the hook has reformatted the file, the push was refused, the
+playbook block is still there and only `settings.json` is committed.
 
 ---
 
