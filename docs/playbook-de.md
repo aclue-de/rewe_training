@@ -557,10 +557,11 @@ Aufbau des Plans, genau diese Abschnitte:
    - Im Chat nur: geänderte Dateien und wie wir den Teilschritt testen. Kurz
      und klar.
    - Zum Schluss im Chat ein kurzer Prompt für den nächsten Teilschritt nach
-     /compact, als Codeblock zum Kopieren: welches Modell und welcher Effort,
-     wo der Plan liegt, welcher Teilschritt als nächster dran ist und dass
-     die Regeln im Plan gelten. Ist der Plan durch, steht dort stattdessen
-     die Abnahme gegen die Akzeptanzkriterien.
+     /compact, ohne Slash-Befehle, als Codeblock zum Kopieren: welches Modell
+     und welcher Effort, wo der Plan liegt, welcher Teilschritt als nächster
+     dran ist und dass die Regeln im Plan gelten. Ist der Plan durch, steht
+     dort stattdessen der Prompt für die Abnahme gegen die
+     Akzeptanzkriterien.
    - Nach dem Commit wird der Kontext komprimiert (/compact).
 2. "Entscheidungen": Das Ticket listet unter "Open questions" drei Fragen,
    die vor der Umsetzung entschieden werden müssen. Beantworte jede: wie

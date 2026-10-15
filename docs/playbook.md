@@ -528,10 +528,10 @@ Structure of the plan, exactly these sections:
    - In the chat only: changed files and how we test the step. Short and
      clear.
    - At the end, in the chat, a short prompt for the next step after
-     /compact, as a code block to copy: which model and which effort, where the
-     plan is, which step is next, and that the rules in the plan apply. Once
-     the plan is done, it holds the sign-off against the acceptance criteria
-     instead.
+     /compact, without slash commands, as a code block to copy: which model
+     and which effort, where the plan is, which step is next, and that the
+     rules in the plan apply. Once the plan is done, it holds the prompt for
+     the sign-off against the acceptance criteria instead.
    - After the commit the context is compacted (/compact).
 2. "Decisions": the ticket lists three questions under "Open questions" that
    have to be decided before implementation. Answer each: how the endpoint
