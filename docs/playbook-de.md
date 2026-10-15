@@ -506,7 +506,7 @@ Playbook-Sperre noch drin ist und nur die `settings.json` committet ist.
 **Ziel:** Ihr setzt ein größeres Ticket in kleinen Teilschritten um. Zuerst
 entsteht mit dem passenden Modell und Effort ein Plan als Datei. Dann wird jeder
 Teilschritt einzeln umgesetzt, selbst getestet und committet, danach wird der
-Kontext geleert.
+Kontext komprimiert.
 Ticket: [02-deposit-return.md](../issues/02-deposit-return.md).
 
 Auch hier müsst ihr den Code nicht verstehen. Ihr prüft, ob jeder Teilschritt
@@ -517,10 +517,10 @@ tut, was der Plan sagt, und ob der Build grün bleibt.
 1. **Modell und Effort wählen** für die Planung.
 2. **Plan schreiben lassen:** als Datei, mit übergreifenden Regeln für die
    Ausführung und Teilschritten mit eigenen Regeln, Modell und Effort.
-3. **Plan prüfen lassen**, committen, Kontext leeren.
+3. **Plan prüfen lassen**, committen, Kontext komprimieren.
 4. **Jeden Teilschritt einzeln:** Modell und Effort wählen, umsetzen und den Plan
-   aktualisieren lassen, selbst testen, committen, Prompt für die nächste
-   Session kopieren, Kontext leeren. Bis der Plan durch ist.
+   aktualisieren lassen, selbst testen, committen, Prompt für den nächsten
+   Teilschritt kopieren, Kontext komprimieren. Bis der Plan durch ist.
 5. **Abnehmen:** gegen die Akzeptanzkriterien.
 
 ### 1 · Modell und Effort für die Planung wählen
@@ -545,8 +545,8 @@ Aufbau des Plans, genau diese Abschnitte:
 
 1. "Regeln für die Ausführung". Übernimm diese Regeln wörtlich, sie gelten für
    jeden Teilschritt:
-   - Jeder Teilschritt startet mit leerem Kontext (/clear). Dieser Plan ist
-     das Einzige, was aus früheren Teilschritten bekannt ist.
+   - Jeder Teilschritt startet mit komprimiertem Kontext (/compact). Maßgeblich
+     ist dieser Plan, nicht die Zusammenfassung früherer Teilschritte.
    - Vor dem Teilschritt werden Modell und Effort gewählt (/model, /effort),
      wie beim Teilschritt angegeben.
    - Nur den genannten Teilschritt umsetzen und seine eigenen Regeln einhalten.
@@ -556,12 +556,12 @@ Aufbau des Plans, genau diese Abschnitte:
    - Nicht committen. Wir testen selbst und committen Code und Plan zusammen.
    - Im Chat nur: geänderte Dateien und wie wir den Teilschritt testen. Kurz
      und klar.
-   - Zum Schluss im Chat ein kurzer Prompt für die nächste Session nach
-     /clear, als Codeblock zum Kopieren: welches Modell und welcher Effort,
+   - Zum Schluss im Chat ein kurzer Prompt für den nächsten Teilschritt nach
+     /compact, als Codeblock zum Kopieren: welches Modell und welcher Effort,
      wo der Plan liegt, welcher Teilschritt als nächster dran ist und dass
      die Regeln im Plan gelten. Ist der Plan durch, steht dort stattdessen
      die Abnahme gegen die Akzeptanzkriterien.
-   - Nach dem Commit wird der Kontext geleert (/clear).
+   - Nach dem Commit wird der Kontext komprimiert (/compact).
 2. "Entscheidungen": Das Ticket listet unter "Open questions" drei Fragen,
    die vor der Umsetzung entschieden werden müssen. Beantworte jede: wie
    sich der Endpunkt verhält, mit einem Satz Begründung.
@@ -582,27 +582,27 @@ Im Chat nur: wo der Plan liegt, wie viele Teilschritte er hat und mit welchem
 Modell und Effort Teilschritt 1 startet.
 ```
 
-Die Regeln stehen im Plan, damit sie nach jedem `/clear` weiter gelten.
+Die Regeln stehen im Plan, damit sie nach jedem `/compact` weiter gelten.
 Prüft die Datei, bevor ihr weitermacht: Fehlt bei einem Teilschritt Modell und
-Effort oder fehlen in den Regeln `/clear` und das Aktualisieren des Plans, lasst
+Effort oder fehlen in den Regeln `/compact` und das Aktualisieren des Plans, lasst
 es nachtragen. Lest auch die Entscheidungen: Sie hat Claude getroffen. Ändert,
 was ihr anders haben wollt.
 
 ### 3 · Den Plan prüfen lassen
 
-Mit leerem Kontext prüfen lassen:
+Mit komprimiertem Kontext prüfen lassen:
 
 ```
-/clear
+/compact
 ```
 
 ```
 Lies docs/plan-deposit-return.md. Was ist daran falsch, was fehlt? Ist jeder
 Teilschritt einzeln reviewbar, testbar und committbar? Hat jeder Teilschritt
 Modell und Effort, eigene Regeln, einen Test und ein Fertig-Kriterium? Fehlt in
-den Regeln für die Ausführung etwas, etwa /clear, Modellwahl, das
-Aktualisieren des Plans oder der Prompt für die nächste Session? Höchstens fünf Befunde, je eine Zeile. Kurz und klar,
-nur Fakten. Noch nichts ändern.
+den Regeln für die Ausführung etwas, etwa /compact, Modellwahl, das
+Aktualisieren des Plans oder der Prompt für den nächsten Teilschritt? Höchstens
+fünf Befunde, je eine Zeile. Kurz und klar, nur Fakten. Noch nichts ändern.
 ```
 
 Die Grenze von fünf Befunden ist Absicht: Ihr sollt nicht Stunden damit
@@ -610,14 +610,14 @@ verbringen, den Code zu verstehen. Die wichtigsten Befunde reichen.
 
 Sagt Claude, welche Befunde es in die Datei einarbeiten soll. Nicht neu schreiben
 lassen. Widerspricht ein Befund den Regeln für die Ausführung, gelten die Regeln.
-Dann committen und den Kontext leeren:
+Dann committen und den Kontext komprimieren:
 
 ```bash
 git add docs/plan-deposit-return.md && git commit -m "Add plan for the deposit return"
 ```
 
 ```
-/clear
+/compact
 ```
 
 ### 4 · Teilschritt für Teilschritt umsetzen
@@ -643,7 +643,7 @@ Regeln für die Ausführung und an die Regeln des Teilschritts.
 ```
 
 Ab Teilschritt 2 nehmt ihr den Prompt, den Claude am Ende des vorigen
-Teilschritts für die nächste Session ausgegeben hat.
+Teilschritts für den nächsten Teilschritt ausgegeben hat.
 
 **Selbst testen,** so wie der Plan es für den Teilschritt vorsieht, und immer:
 
@@ -655,7 +655,7 @@ Ist `verify` rot, lasst Claude nachbessern, bevor ihr committet.
 
 Prüft auch, ob der Plan aktualisiert ist: Teilschritt abgehakt, Abweichungen und
 neue Entscheidungen eingetragen. Sonst Claude daran erinnern, bevor ihr
-committet, denn nach `/clear` ist nur noch der Plan da.
+committet, denn nach `/compact` bleibt vom Verlauf nur eine Zusammenfassung.
 
 **Committen,** Code und aktualisierten Plan zusammen:
 
@@ -663,18 +663,18 @@ committet, denn nach `/clear` ist nur noch der Plan da.
 git add -A && git commit -m "<was der Teilschritt tut>"
 ```
 
-**Prompt für die nächste Session kopieren.** Claude hat ihn am Ende des
+**Prompt für den nächsten Teilschritt kopieren.** Claude hat ihn am Ende des
 Teilschritts als Codeblock ausgegeben. Fehlt er, fordert ihn an:
 
 ```
-Gib mir den kurzen Prompt für die nächste Session nach /clear, wie in den
+Gib mir den kurzen Prompt für den nächsten Teilschritt nach /compact, wie in den
 Regeln im Plan beschrieben.
 ```
 
-**Kontext leeren:**
+**Kontext komprimieren:**
 
 ```
-/clear
+/compact
 ```
 
 Dann Modell und Effort wählen, wie im kopierten Prompt angegeben, und den

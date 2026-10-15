@@ -477,7 +477,7 @@ playbook block is still there and only `settings.json` is committed.
 
 **Goal:** you implement a larger ticket in small steps. First, with the right
 model and effort, a plan is written to a file. Then each step is implemented on
-its own, tested by you and committed, and the context is cleared afterwards.
+its own, tested by you and committed, and the context is compacted afterwards.
 Ticket: [02-deposit-return.md](../issues/02-deposit-return.md).
 
 Here too you don't need to understand the code. You check whether each step does
@@ -488,10 +488,10 @@ what the plan says and whether the build stays green.
 1. **Choose model and effort** for the planning.
 2. **Have the plan written:** as a file, with overall rules for execution and
    steps with their own rules, model and effort.
-3. **Have the plan reviewed**, commit, clear the context.
+3. **Have the plan reviewed**, commit, compact the context.
 4. **Each step on its own:** choose model and effort, have it implemented and the
-   plan updated, test it yourself, commit, copy the prompt for the next session,
-   clear the context. Until the plan is done.
+   plan updated, test it yourself, commit, copy the prompt for the next step,
+   compact the context. Until the plan is done.
 5. **Sign-off:** against the acceptance criteria.
 
 ### 1 · Choose model and effort for the planning
@@ -516,8 +516,8 @@ Structure of the plan, exactly these sections:
 
 1. "Rules for execution". Copy these rules word for word, they apply to every
    step:
-   - Every step starts with an empty context (/clear). This plan is the only
-     thing known from earlier steps.
+   - Every step starts with a compacted context (/compact). This plan is
+     authoritative, not the summary of earlier steps.
    - Before the step, model and effort are chosen (/model, /effort) as given
      for the step.
    - Implement only the step named and follow its own rules.
@@ -527,12 +527,12 @@ Structure of the plan, exactly these sections:
    - Do not commit. We test ourselves and commit code and plan together.
    - In the chat only: changed files and how we test the step. Short and
      clear.
-   - At the end, in the chat, a short prompt for the next session after
-     /clear, as a code block to copy: which model and which effort, where the
+   - At the end, in the chat, a short prompt for the next step after
+     /compact, as a code block to copy: which model and which effort, where the
      plan is, which step is next, and that the rules in the plan apply. Once
      the plan is done, it holds the sign-off against the acceptance criteria
      instead.
-   - After the commit the context is cleared (/clear).
+   - After the commit the context is compacted (/compact).
 2. "Decisions": the ticket lists three questions under "Open questions" that
    have to be decided before implementation. Answer each: how the endpoint
    behaves, with one sentence of reasoning.
@@ -553,25 +553,25 @@ In the chat only: where the plan is, how many steps it has and with which model
 and effort step 1 starts.
 ```
 
-The rules are in the plan so they still apply after every `/clear`. Check the
+The rules are in the plan so they still apply after every `/compact`. Check the
 file before you go on: if a step lacks model and effort, or the rules lack
-`/clear` and updating the plan, have it added. Read the decisions as well: Claude
+`/compact` and updating the plan, have it added. Read the decisions as well: Claude
 made them. Change whatever you want differently.
 
 ### 3 · Have the plan reviewed
 
-Have it reviewed with an empty context:
+Have it reviewed with a compacted context:
 
 ```
-/clear
+/compact
 ```
 
 ```
 Read docs/plan-deposit-return.md. What is wrong with it, what is missing? Can
 each step be reviewed, tested and committed on its own? Does each step have
 model and effort, its own rules, a test and a done criterion? Is anything
-missing from the rules for execution, such as /clear, choosing the model,
-updating the plan or the prompt for the next session? At most five findings,
+missing from the rules for execution, such as /compact, choosing the model,
+updating the plan or the prompt for the next step? At most five findings,
 one line each. Short and clear, facts only. Don't change anything yet.
 ```
 
@@ -580,14 +580,14 @@ understanding the code. The most important findings are enough.
 
 Tell Claude which findings to work into the file. Don't have it rewritten. If a
 finding contradicts the rules for execution, the rules apply. Then commit and
-clear the context:
+compact the context:
 
 ```bash
 git add docs/plan-deposit-return.md && git commit -m "Add plan for the deposit return"
 ```
 
 ```
-/clear
+/compact
 ```
 
 ### 4 · Implement step by step
@@ -613,7 +613,7 @@ execution and the rules of the step.
 ```
 
 From step 2 on, use the prompt Claude gave you at the end of the previous step
-for the next session.
+for the next step.
 
 **Test it yourself,** as the plan says for this step, and always:
 
@@ -625,7 +625,7 @@ If `verify` is red, have Claude fix it before you commit.
 
 Also check that the plan is updated: step ticked off, deviations and new
 decisions recorded. Otherwise remind Claude before you commit, because after
-`/clear` only the plan is left.
+`/compact` only a summary of the conversation is left.
 
 **Commit,** code and updated plan together:
 
@@ -633,18 +633,18 @@ decisions recorded. Otherwise remind Claude before you commit, because after
 git add -A && git commit -m "<what the step does>"
 ```
 
-**Copy the prompt for the next session.** Claude gave it as a code block at the
-end of the step. If it is missing, ask for it:
+**Copy the prompt for the next step.** Claude gave it as a code block at the end
+of the step. If it is missing, ask for it:
 
 ```
-Give me the short prompt for the next session after /clear, as described in the
+Give me the short prompt for the next step after /compact, as described in the
 rules in the plan.
 ```
 
-**Clear the context:**
+**Compact the context:**
 
 ```
-/clear
+/compact
 ```
 
 Then choose model and effort as given in the copied prompt and paste the prompt.
