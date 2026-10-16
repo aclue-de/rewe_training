@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./docs/playbook*.md)",
+      "Bash(*playbook*)",
+      "PowerShell(*playbook*)",
+      "Bash(*docs/play*)",
+      "PowerShell(*docs/play*)"
+    ]
+  }
+}
