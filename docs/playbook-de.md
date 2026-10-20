@@ -11,14 +11,14 @@ merkt, dass ihr fertig seid.
 können, welche Entscheidungen eure waren und welche die KI getroffen hat. Geht
 darüber die Zeit aus, ist das in Ordnung.
 
-| Block | Ziel | Ergebnis |
-|-------|------|----------|
-| **H1** Schneiden und Anti-Pattern | sehen, dass Entscheidungen fallen, ob ihr sie vorgebt oder Claude plausibel rät | eure Zahlen in der Miro-Tabelle |
-| **H2** Projektkontext | Claude Code den Projektkontext geben | `AGENTS.md` |
-| **H3** Eigener Skill | Wiederkehrendes nicht jedes Mal neu erklären | `SKILL.md` |
-| **H4** Subagent | Arbeit mit begrenzten Rechten abgeben | `.claude/agents/money-audit.md` |
-| **H5** Team-Konfiguration | Regeln durchsetzen statt erbitten | `.claude/settings.json` |
-| **H6** Der große Block | ein Ticket nach Plan in reviewbaren Teilschritten umsetzen | Plan-Datei und ein Commit pro Teilschritt |
+| Block                                             | Ziel | Ergebnis |
+|---------------------------------------------------|------|----------|
+| **H1** Versteckte Entscheidungen und Anti-Pattern | sehen, dass Entscheidungen fallen, ob ihr sie vorgebt oder Claude plausibel rät | eure Zahlen in der Miro-Tabelle |
+| **H2** Projektkontext                             | Claude Code den Projektkontext geben | `AGENTS.md` |
+| **H3** Eigener Skill                              | Wiederkehrendes nicht jedes Mal neu erklären | `SKILL.md` |
+| **H4** Subagent                                   | Arbeit mit begrenzten Rechten abgeben | `.claude/agents/money-audit.md` |
+| **H5** Team-Konfiguration                         | Regeln durchsetzen statt erbitten | `.claude/settings.json` |
+| **H6** Der große Block                            | ein Ticket nach Plan in reviewbaren Teilschritten umsetzen | Plan-Datei und ein Commit pro Teilschritt |
 
 Die Tickets liegen in [../issues](../issues), die Einrichtung in
 [setup.md](setup.md), die API in [api.md](api.md).
@@ -46,7 +46,7 @@ euch die Übungen nicht vorwegnimmt. Nicht entfernen.
 
 ---
 
-## H1 · Schneiden und Anti-Pattern
+## H1 · Versteckte Entscheidungen und Anti-Pattern
 
 **Ziel:** Ihr seht, dass bei jeder Umsetzung Entscheidungen getroffen werden, ob
 ihr sie vorgebt oder Claude plausibel rät. Dazu setzt Claude dasselbe Ticket
