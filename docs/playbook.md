@@ -11,14 +11,14 @@ you know you are finished.
 afterwards which decisions were yours and which the AI made. If you run out of
 time on that, that is fine.
 
-| Block | Goal | Result |
-|-------|------|--------|
-| **H1** Right-sizing and anti-patterns | see that decisions get made, whether you specify them or Claude makes a plausible guess | your numbers in the Miro table |
-| **H2** Project context | give Claude Code the project context | `AGENTS.md` |
-| **H3** Your own skill | don't re-explain what recurs | `SKILL.md` |
-| **H4** Subagent | hand off work with limited permissions | `.claude/agents/money-audit.md` |
-| **H5** Team configuration | enforce rules instead of asking for them | `.claude/settings.json` |
-| **H6** The big block | implement a ticket to a plan in reviewable steps | plan file and one commit per step |
+| Block                                     | Goal | Result |
+|-------------------------------------------|------|--------|
+| **H1** Hidden decisions and anti-patterns | see that decisions get made, whether you specify them or Claude makes a plausible guess | your numbers in the Miro table |
+| **H2** Project context                    | give Claude Code the project context | `AGENTS.md` |
+| **H3** Your own skill                     | don't re-explain what recurs | `SKILL.md` |
+| **H4** Subagent                           | hand off work with limited permissions | `.claude/agents/money-audit.md` |
+| **H5** Team configuration                 | enforce rules instead of asking for them | `.claude/settings.json` |
+| **H6** The big block                      | implement a ticket to a plan in reviewable steps | plan file and one commit per step |
 
 The tickets are in [../issues](../issues), the setup in [setup.md](setup.md), the
 API in [api.md](api.md).
@@ -45,7 +45,7 @@ does not give away the exercises. Don't remove it.
 
 ---
 
-## H1 · Right-sizing and anti-patterns
+## H1 · Hidden decisions and anti-patterns
 
 **Goal:** you see that decisions get made in every implementation, whether you
 specify them or Claude makes a plausible guess. To show it, Claude implements
